@@ -1,6 +1,7 @@
 import { useSettings } from "@/services/SettingsProvider";
+import { minutesToTime } from "@/utils/minutesToTime";
 import { timeToMinutes } from "@/utils/timeToMinutes";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import {
   FaCheck,
@@ -9,37 +10,19 @@ import {
   FaCirclePlus,
 } from "react-icons/fa6";
 
-const BlockAddModal = () => {
-  const {
-    blockAddModalVisible,
-    setBlockAddModalVisible,
-    tagAddModalVisible,
-    setTagAddModalVisible,
-    colors,
-    userData,
-    setUserData,
-  } = useSettings();
+const BlockEditModal = ({
+  blockEditModalVisible,
+  setBlockEditModalVisible,
+  editingBlockIndex,
+  editingBlockData,
+  setEditingBlockData,
+  tags,
+}) => {
+  const { colors, userData, setUserData } = useSettings();
 
-  // States
-  const [tags, setTags] = useState({});
-  const [newSessionTitle, setNewSessionTitle] = useState("");
-  const [newSessionStartTime, setNewSessionStartTime] = useState("");
-  const [newSessionEndTime, setNewSessionEndTime] = useState("");
-  const [newSessionTag, setNewSessionTag] = useState("");
-  const [newSessionNote, setNewSessionNote] = useState("");
+  const [tagAddModalVisible, setTagAddModalVisible] = useState(false);
 
-  // Effetcs
-  useEffect(() => {
-    setTags(userData?.settings?.tags || {});
-  }, [userData]);
-
-  useEffect(() => {
-    if (Object.keys(tags || {}).length > 0 && !newSessionTag) {
-      setNewSessionTag(Object.keys(tags)[0]);
-    }
-  }, [tags]);
-
-  //   Functions
+  // Functions
   const addNewTag = (e) => {
     e.preventDefault();
 
@@ -63,14 +46,17 @@ const BlockAddModal = () => {
 
     setUserData(updatedUserData);
     setTagAddModalVisible(false);
-    setNewSessionTag(tagTitle);
+    setEditingBlockData({
+      ...editingBlockData,
+      tag: tagTitle,
+    });
   };
 
-  const addNewSession = (e) => {
+  const editSession = (e) => {
     e.preventDefault();
 
-    let startTime = timeToMinutes(newSessionStartTime);
-    let endTime = timeToMinutes(newSessionEndTime);
+    let startTime = timeToMinutes(e.target.start_time.value);
+    let endTime = timeToMinutes(e.target.end_time.value);
 
     if (startTime === endTime) {
       return toast("Start and end times are the same!");
@@ -79,61 +65,69 @@ const BlockAddModal = () => {
     }
 
     let session = {
-      title: newSessionTitle,
+      title: e.target.title.value,
       start: startTime,
       end: endTime,
-      tag: newSessionTag,
+      tag: e.target.tag.value,
       remarks: {
-        checked: false,
-        note: newSessionNote || "",
+        checked: e.target.checked.checked,
+        note: e.target.note.value,
       },
     };
 
     let targetPlanIndex = userData?.selectedPlan;
 
-    const isOverlapping = userData?.plans?.[targetPlanIndex]?.plan?.rows?.some(
-      (session) => {
-        return startTime < session?.end && endTime > session?.start;
-      }
-    );
+    let sisterRows = userData?.plans?.[targetPlanIndex]?.plan?.rows
+      ?.slice()
+      ?.sort((a, b) => a.start - b.start)
+      ?.filter((_, id) => id !== editingBlockIndex);
+
+    const isOverlapping = sisterRows?.some((session) => {
+      console.log(
+        "ns: ",
+        startTime,
+        "e: ",
+        session?.end,
+        "ne :",
+        endTime,
+        "s :",
+        session?.start
+      );
+      return startTime < session?.end && endTime > session?.start;
+    });
 
     if (isOverlapping)
       return toast("The start and end times overlap another session's time...");
 
     if (targetPlanIndex !== undefined && userData?.plans?.[targetPlanIndex]) {
       let updatedPlan = { ...userData?.plans[targetPlanIndex] };
-      updatedPlan.plan.rows.push(session);
+      updatedPlan.plan.rows.sort((a, b) => a.start - b.start)[
+        editingBlockIndex
+      ] = session;
 
       let updatedUserData = { ...userData };
       updatedUserData.plans[targetPlanIndex] = updatedPlan;
 
       setUserData(updatedUserData);
-      setBlockAddModalVisible(false);
+      setBlockEditModalVisible(false);
       setTagAddModalVisible(false);
-      setNewSessionTitle("");
-      setNewSessionStartTime("");
-      setNewSessionEndTime("");
-      setNewSessionTag("");
-      setNewSessionNote("");
+    } else {
+      return toast.error(
+        "Logic error occured, data not synced. Please refresh the app."
+      );
     }
   };
 
-  {
-    /* Modal to add a block/row */
-  }
   return (
-    blockAddModalVisible && (
+    blockEditModalVisible && (
       <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)] backdrop-blur-[1px] flex items-center justify-center fade">
         {/* Modal Closer Layer */}
         <div
           className="absolute z-[-1] top-0 left-0 w-full h-full bg-transparent"
-          onClick={() => {
-            setBlockAddModalVisible(false);
-            setTagAddModalVisible(false);
-          }}
+          onClick={() => setBlockEditModalVisible(false)}
         ></div>
 
-        {/* Main Modal - Session Add Block */}
+        {/* Main Modal - Session Block Edit */}
         <div
           className={`z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-sm fade-down ${
             tagAddModalVisible ? "hidden" : "block"
@@ -145,11 +139,11 @@ const BlockAddModal = () => {
               color: colors?.primary,
             }}
           >
-            New Session
+            Edit Session
           </span>
 
-          {/* Add Session Form */}
-          <form onSubmit={addNewSession} className="w-full flex flex-col gap-3">
+          {/* Edit Session Form */}
+          <form onSubmit={editSession} className="w-full flex flex-col gap-3">
             {/* Title Input */}
             <div>
               <span className="text-sm font-normal block text-left text-slate-600 mb-1">
@@ -159,8 +153,13 @@ const BlockAddModal = () => {
                 type="text"
                 name="title"
                 required
-                value={newSessionTitle}
-                onChange={(e) => setNewSessionTitle(e.target?.value)}
+                value={editingBlockData?.title}
+                onChange={(e) =>
+                  setEditingBlockData((prev) => ({
+                    ...prev,
+                    title: e.target?.value,
+                  }))
+                }
                 placeholder="Title of the session/break"
                 className="input w-full"
                 style={{
@@ -179,8 +178,13 @@ const BlockAddModal = () => {
                 type="time"
                 name="start_time"
                 required
-                value={newSessionStartTime}
-                onChange={(e) => setNewSessionStartTime(e.target?.value)}
+                value={minutesToTime(editingBlockData?.start, true)}
+                onChange={(e) =>
+                  setEditingBlockData((prev) => ({
+                    ...prev,
+                    start: timeToMinutes(e.target?.value),
+                  }))
+                }
                 className="input w-full"
                 style={{
                   outlineColor: colors.accent,
@@ -198,8 +202,13 @@ const BlockAddModal = () => {
                 type="time"
                 name="end_time"
                 required
-                value={newSessionEndTime}
-                onChange={(e) => setNewSessionEndTime(e.target?.value)}
+                value={minutesToTime(editingBlockData?.end, true)}
+                onChange={(e) =>
+                  setEditingBlockData((prev) => ({
+                    ...prev,
+                    end: timeToMinutes(e.target?.value),
+                  }))
+                }
                 className="input w-full"
                 style={{
                   outlineColor: colors.accent,
@@ -218,14 +227,19 @@ const BlockAddModal = () => {
                 <div className="w-full relative">
                   <select
                     name="tag"
-                    value={newSessionTag}
-                    onChange={(e) => setNewSessionTag(e.target.value)}
+                    value={editingBlockData?.tag}
+                    onChange={(e) =>
+                      setEditingBlockData((prev) => ({
+                        ...prev,
+                        tag: e.target.value,
+                      }))
+                    }
                     className="input w-full"
                     style={{
                       outlineColor: colors.accent,
                       borderColor: colors.accent,
-                      color: tags[newSessionTag]?.text,
-                      backgroundColor: tags[newSessionTag]?.bg,
+                      color: tags[editingBlockData?.tag]?.text,
+                      backgroundColor: tags[editingBlockData?.tag]?.bg,
                     }}
                   >
                     {Object.keys(tags)?.map((tag, index) => (
@@ -263,6 +277,26 @@ const BlockAddModal = () => {
               </button>
             </div>
 
+            <div className="flex flex-row items-center gap-1 justify-start">
+              <input
+                name="checked"
+                type="checkbox"
+                checked={editingBlockData?.remarks?.checked}
+                onChange={(e) => {
+                  setEditingBlockData({
+                    ...editingBlockData,
+                    remarks: {
+                      ...editingBlockData?.remarks,
+                      checked: !editingBlockData?.remarks?.checked,
+                    },
+                  });
+                }}
+              />
+              <span className="text-sm font-normal block text-left text-slate-600 mb-1">
+                Mark as done
+              </span>
+            </div>
+
             <div>
               <span className="text-sm font-normal block text-left text-slate-600 mb-1">
                 Note/Reminder (Optional)
@@ -270,8 +304,16 @@ const BlockAddModal = () => {
               <input
                 type="text"
                 name="note"
-                value={newSessionNote}
-                onChange={(e) => setNewSessionNote(e.target?.value)}
+                value={editingBlockData?.remarks?.note}
+                onChange={(e) =>
+                  setEditingBlockData({
+                    ...editingBlockData,
+                    remarks: {
+                      ...editingBlockData?.remarks,
+                      note: e.target?.value,
+                    },
+                  })
+                }
                 placeholder="Additional note to remember"
                 className="input w-full"
                 style={{
@@ -285,7 +327,7 @@ const BlockAddModal = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setBlockAddModalVisible(false);
+                  setBlockEditModalVisible(false);
                   setTagAddModalVisible(false);
                 }}
                 className="w-[50%] text-sm font-normal block text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer bg-white border-2"
@@ -304,7 +346,7 @@ const BlockAddModal = () => {
                   borderColor: colors?.primary,
                 }}
               >
-                Add Session <FaCheck className="text-lg" />
+                Update Session <FaCheck className="text-lg" />
               </button>
             </div>
           </form>
@@ -399,4 +441,4 @@ const BlockAddModal = () => {
     )
   );
 };
-export default BlockAddModal;
+export default BlockEditModal;

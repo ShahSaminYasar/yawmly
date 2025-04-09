@@ -4,13 +4,28 @@ import { minutesToTime } from "@/utils/minutesToTime";
 import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import BlockAddModal from "./BlockAddModal";
+import SessionBlock from "./SessionBlock";
+import BlockEditModal from "./BlockEditModal";
 
 const DayPlan = ({ plan, planId }) => {
   const { colors, userData, setBlockAddModalVisible } = useSettings();
 
   //   States
   const [tags, setTags] = useState({});
+  const [blockEditModalVisible, setBlockEditModalVisible] = useState(false);
+  const [editingBlockIndex, setEditingBlockIndex] = useState(0);
+  const [editingBlockData, setEditingBlockData] = useState({
+    title: "",
+    start: 0,
+    end: 0,
+    tag: "",
+    remarks: {
+      checked: false,
+      note: "",
+    },
+  });
 
+  //   Effetcs
   useEffect(() => {
     setTags(userData?.settings?.tags || {});
   }, [userData]);
@@ -56,69 +71,29 @@ const DayPlan = ({ plan, planId }) => {
         </thead>
 
         <tbody>
-          {plan?.plan?.rows?.map((block, index) => (
-            <tr
-              key={`session_block_${index}`}
-              className="text-sm"
-              style={{
-                backgroundColor: tags[block?.tag]?.bg,
-                color: tags[block?.tag]?.text,
-              }}
-            >
-              <td
-                style={{
-                  borderWidth: "1px",
-                  borderColor: colors?.accent,
-                  padding: "12px 12px",
-                }}
-              >
-                {minutesToTime(block?.start)} - {minutesToTime(block?.end)}
-              </td>
-              <td
-                style={{
-                  borderWidth: "1px",
-                  borderColor: colors?.accent,
-                  padding: "12px 12px",
-                }}
-              >
-                {block?.title}
-              </td>
-              <td
-                style={{
-                  borderWidth: "1px",
-                  borderColor: colors?.accent,
-                  padding: "12px 12px",
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={block?.remarks?.checked}
-                  style={{
-                    borderWidth: "2px",
-                    borderColor: tags[block?.tag]?.text,
-                  }}
-                />
-                <input
-                  type="text"
-                  value={block?.remarks?.note}
-                  className={
-                    block?.remarks?.note?.length === 0
-                      ? "block -mt-5 w-[40%]"
-                      : "inline-block mt-0 ml-1"
-                  }
-                />
-              </td>
-            </tr>
-          ))}
+          {plan?.plan?.rows
+            ?.slice()
+            ?.sort((a, b) => a.start - b.start)
+            ?.map((block, index) => (
+              <SessionBlock
+                key={`session_block_${index}`}
+                block={block}
+                index={index}
+                tags={tags}
+                setBlockEditModalVisible={setBlockEditModalVisible}
+                setEditingBlockIndex={setEditingBlockIndex}
+                setEditingBlockData={setEditingBlockData}
+              />
+            ))}
         </tbody>
       </table>
 
       {/* Button to add a new block/row */}
-      <div className="flex flex-row flex-nowrap justify-between gap-1 items-center mt-2 mb-2">
+      <div className="flex flex-row flex-nowrap justify-between gap-1 items-center mt-2 mb-2 group">
         <span
-          className="block w-full h-[1px] rounded-sm"
+          className="block w-full h-[2px] rounded-sm opacity-20 group-hover:opacity-40"
           style={{
-            backgroundColor: colors?.secondary,
+            backgroundColor: colors?.primary,
           }}
         ></span>
         <button
@@ -138,14 +113,22 @@ const DayPlan = ({ plan, planId }) => {
           />
         </button>
         <span
-          className="block w-full h-[1px] rounded-sm"
+          className="block w-full h-[2px] rounded-sm opacity-20 group-hover:opacity-40"
           style={{
-            backgroundColor: colors?.secondary,
+            backgroundColor: colors?.primary,
           }}
         ></span>
       </div>
 
       <BlockAddModal />
+      <BlockEditModal
+        blockEditModalVisible={blockEditModalVisible}
+        setBlockEditModalVisible={setBlockEditModalVisible}
+        editingBlockData={editingBlockData}
+        setEditingBlockData={setEditingBlockData}
+        editingBlockIndex={editingBlockIndex}
+        tags={tags}
+      />
     </section>
   );
 };

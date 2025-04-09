@@ -1,4 +1,4 @@
-export const minutesToTime = (minsValue) => {
+export const minutesToTime = (minsValue, defaultFormat = false) => {
   let userData = JSON.parse(localStorage?.getItem("user"));
   let preferredTimeFormat = userData?.settings?.preferredTimeFormat || "t";
 
@@ -7,7 +7,12 @@ export const minutesToTime = (minsValue) => {
 
   let result;
 
-  if (preferredTimeFormat === "T") {
+  if (defaultFormat) {
+    result = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}`;
+  } else if (preferredTimeFormat === "T") {
     result = `${hours}:${String(minutes).padStart(2, "0")}`;
   } else {
     let isPM = hours >= 12;
@@ -17,7 +22,7 @@ export const minutesToTime = (minsValue) => {
     }`;
   }
 
-  console.log("Converted time: ", result);
+  // console.log("Converted time: ", result);
 
   return result;
 };
