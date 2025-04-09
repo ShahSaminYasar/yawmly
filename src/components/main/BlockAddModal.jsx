@@ -34,7 +34,7 @@ const BlockAddModal = () => {
   }, [userData]);
 
   useEffect(() => {
-    if (Object.keys(tags || {}).length > 0 && !newSessionTag) {
+    if (Object.keys(tags || {}).length > 0 && newSessionTag?.length === 0) {
       setNewSessionTag(Object.keys(tags)[0]);
     }
   }, [tags]);
@@ -123,7 +123,7 @@ const BlockAddModal = () => {
   }
   return (
     blockAddModalVisible && (
-      <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)] backdrop-blur-[1px] flex items-center justify-center fade">
+      <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,82,35,0.12)] backdrop-blur-xs flex items-center justify-center fade">
         {/* Modal Closer Layer */}
         <div
           className="absolute z-[-1] top-0 left-0 w-full h-full bg-transparent"
@@ -135,7 +135,7 @@ const BlockAddModal = () => {
 
         {/* Main Modal - Session Add Block */}
         <div
-          className={`z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-sm fade-down ${
+          className={`z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-lg fade-down ${
             tagAddModalVisible ? "hidden" : "block"
           }`}
         >
@@ -312,7 +312,7 @@ const BlockAddModal = () => {
 
         {/* New Tag Add Modal */}
         {tagAddModalVisible && (
-          <div className="z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-sm fade-down relative">
+          <div className="z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-lg fade-down relative">
             {/* Go Back Button */}
             <button
               type="button"

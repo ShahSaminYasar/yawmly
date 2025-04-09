@@ -120,7 +120,7 @@ const BlockEditModal = ({
 
   return (
     blockEditModalVisible && (
-      <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)] backdrop-blur-[1px] flex items-center justify-center fade">
+      <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,82,35,0.12)] backdrop-blur-xs flex items-center justify-center fade">
         {/* Modal Closer Layer */}
         <div
           className="absolute z-[-1] top-0 left-0 w-full h-full bg-transparent"
@@ -129,7 +129,7 @@ const BlockEditModal = ({
 
         {/* Main Modal - Session Block Edit */}
         <div
-          className={`z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-sm fade-down ${
+          className={`z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-lg fade-down ${
             tagAddModalVisible ? "hidden" : "block"
           }`}
         >
@@ -354,7 +354,7 @@ const BlockEditModal = ({
 
         {/* New Tag Add Modal */}
         {tagAddModalVisible && (
-          <div className="z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-sm fade-down relative">
+          <div className="z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-lg fade-down relative">
             {/* Go Back Button */}
             <button
               type="button"
