@@ -30,18 +30,20 @@ const SessionBlock = ({
     ) {
       let updatedUserData = {
         ...userData,
-        plans: {
-          ...userData.plans,
-          [userData.selectedPlan]: {
-            ...userData.plans[userData?.selectedPlan],
-            plan: {
-              ...userData.plans[userData.selectedPlan].plan,
-              rows: userData.plans[userData.selectedPlan].plan.rows
-                .sort((a, b) => a.start - b.start)
-                .map((r, i) => (i === index ? updatedBlock : r)),
-            },
-          },
-        },
+        plans: userData?.plans?.map((plan, planIndex) => {
+          if (planIndex === userData?.selectedPlan) {
+            return {
+              ...plan,
+              plan: {
+                ...plan.plan,
+                rows: plan.plan.rows
+                  .sort((a, b) => a.start - b.start)
+                  .map((r, i) => (i === index ? updatedBlock : r)),
+              },
+            };
+          }
+          return plan;
+        }),
       };
 
       return setUserData(updatedUserData);
