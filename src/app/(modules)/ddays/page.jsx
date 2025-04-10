@@ -1,6 +1,7 @@
 "use client";
 import DDayAddModal from "@/components/main/DDayAddModal";
 import DDayCard from "@/components/main/DDayCard";
+import DDayDeleteModal from "@/components/main/DDayDeleteModal";
 import DDayEditModal from "@/components/main/DDayEditModal";
 import { useSettings } from "@/services/SettingsProvider";
 import { useEffect, useState } from "react";
@@ -20,6 +21,8 @@ const page = () => {
     bgColor: "",
     textColor: "",
   });
+  const [dDayDeleteModalVisible, setDDayDeleteModalVisible] = useState(false);
+  const [deletingDDayIndex, setDeletingDDayIndex] = useState(0);
 
   //   Functions
   const editDDay = (setAsActive = false) => {
@@ -57,6 +60,8 @@ const page = () => {
             index={index}
             setEditingDDayData={setEditingDDayData}
             setDDayEditModalVisible={setDDayEditModalVisible}
+            setDDayDeleteModalVisible={setDDayDeleteModalVisible}
+            setDeletingDDayIndex={setDeletingDDayIndex}
           />
         ))}
       </section>
@@ -82,6 +87,12 @@ const page = () => {
         editingDDayData={editingDDayData}
         setEditingDDayData={setEditingDDayData}
         editDDay={editDDay}
+      />
+
+      <DDayDeleteModal
+        dDayDeleteModalVisible={dDayDeleteModalVisible}
+        setDDayDeleteModalVisible={setDDayDeleteModalVisible}
+        index={deletingDDayIndex}
       />
     </>
   );

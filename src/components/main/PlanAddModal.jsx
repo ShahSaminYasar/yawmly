@@ -32,12 +32,13 @@ const PlanAddModal = ({ planAddModalVisible, setPlanAddModalVisible }) => {
     };
 
     setUserData(updatedUserData);
+    setPlanAddModalVisible(false);
     return toast.success("New plan added!");
   };
 
   return (
     planAddModalVisible && (
-      <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,82,35,0.12)] backdrop-blur-xs flex items-center justify-center fade">
+      <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,82,35,0.12)] backdrop-blur-xs flex items-center justify-center fade p-4">
         {/* Modal Closer Layer */}
         <div
           className="absolute z-[-1] top-0 left-0 w-full h-full bg-transparent"

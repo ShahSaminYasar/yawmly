@@ -5,7 +5,7 @@ import { FiEdit2, FiTrash } from "react-icons/fi";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef, useState } from "react";
-import { FaCheck } from "react-icons/fa6";
+import { FaCheck, FaStar } from "react-icons/fa6";
 import { useSettings } from "@/services/SettingsProvider";
 import toast from "react-hot-toast";
 
@@ -16,6 +16,8 @@ const DDayCard = ({
   index,
   setEditingDDayData,
   setDDayEditModalVisible,
+  setDDayDeleteModalVisible,
+  setDeletingDDayIndex,
 }) => {
   const { userData, setUserData } = useSettings();
 
@@ -131,7 +133,7 @@ const DDayCard = ({
                 : dDay?.textColor,
           }}
         >
-          <FaCheck className="text-sm" />
+          <FaStar className="text-sm" />
         </button>
         <button
           onClick={() => {
@@ -152,6 +154,10 @@ const DDayCard = ({
           <FiEdit2 className="text-sm" />
         </button>
         <button
+          onClick={() => {
+            setDeletingDDayIndex(index);
+            setDDayDeleteModalVisible(true);
+          }}
           className="block aspect-square p-1 rounded-full cursor-pointer"
           style={{
             backgroundColor: dDay?.bgColor,

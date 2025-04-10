@@ -2,12 +2,17 @@ import { useSettings } from "@/services/SettingsProvider";
 import moment from "moment-timezone";
 import { FiEdit2 } from "react-icons/fi";
 
-const PlanCard = ({ plan, index }) => {
+const PlanCard = ({
+  plan,
+  index,
+  setPlanEditModalVisible,
+  setEditingPlanData,
+}) => {
   const { colors, userData, setUserData } = useSettings();
 
   return (
     <div
-      className="w-full max-w-[300px] rounded-lg overflow-hidden pt-[130px] shadow-sm bg-no-repeat"
+      className="w-full max-w-[300px] h-fit rounded-lg overflow-hidden pt-[130px] shadow-sm bg-no-repeat"
       style={{
         backgroundImage: `linear-gradient(rgba(255,99,2,0.25),rgba(255,99,2,0.25)), url(/assets/bg-2.jpg)`,
         backgroundSize: "470px",
@@ -23,7 +28,7 @@ const PlanCard = ({ plan, index }) => {
       >
         {/* Plan Title */}
         <span
-          className="text-3xl font-medium block text-left"
+          className="text-2xl sm:text-3xl font-semibold block text-left"
           style={{
             color: colors?.accent,
           }}
@@ -34,7 +39,7 @@ const PlanCard = ({ plan, index }) => {
         {/* Plan Active Badge */}
         {index === userData?.selectedPlan && (
           <span
-            className="w-fit block rounded-sm px-1 text-white text-[10px] absolute top-2 right-2"
+            className="w-fit block rounded-sm px-1 text-white text-[10px] absolute -top-2 right-2"
             style={{
               backgroundColor: colors?.primary,
             }}
@@ -44,12 +49,12 @@ const PlanCard = ({ plan, index }) => {
         )}
 
         {/* Plan Description */}
-        <p className="text-sm text-slate-600 font-normal block text-left">
+        <p className="text-sm text-slate-600 font-medium block text-left mt-0">
           {plan?.description || "No description"}
         </p>
 
         {/* Plan creation date */}
-        <span className="text-xs font-normal text-slate-500">
+        <span className="text-xs font-normal text-slate-500 mt-0">
           Created on:{" "}
           {moment
             .tz(plan?.createdOn, "Asia/Dhaka")
@@ -57,9 +62,17 @@ const PlanCard = ({ plan, index }) => {
         </span>
 
         {/* Action Buttons */}
-        <div className="w-full flex gap-2 items-center">
+        <div className="w-full flex gap-2 items-center mt-1">
           {/* Edit Plan Button */}
           <button
+            onClick={() => {
+              setEditingPlanData({
+                index,
+                title: plan?.title,
+                description: plan?.description,
+              });
+              setPlanEditModalVisible(true);
+            }}
             className="w-full rounded-xl border-2 px-3 py-2 flex items-center gap-2 justify-center cursor-pointer active:scale-[96%] text-sm"
             style={{
               background: "transparent",

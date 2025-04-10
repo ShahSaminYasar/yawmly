@@ -71,9 +71,10 @@ const Header = () => {
   return (
     <header
       id="header"
-      className="w-full p-5 bg-cover bg-no-repeat flex flex-col gap-0 items-center pb-10"
+      className="w-full p-5 bg-cover bg-no-repeat bg-fixed flex flex-col gap-0 items-center pb-10 bg-center"
       style={{
-        backgroundImage: `linear-gradient(rgba(255,99,2,0.8),rgba(255,99,2,0.8)), url(/assets/bg-1.png)`,
+        backgroundImage: `linear-gradient(rgba(255,99,2,0.75),rgba(255,99,2,0.75)), url(/assets/bg-5.png)`,
+        backgroundBlendMode: "normal",
       }}
     >
       <div className="w-full max-w-7xl mx-auto flex justify-between items-center text-white font-normal text-lg">

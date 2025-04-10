@@ -70,3 +70,11 @@ body {
     transform: translateY(0px);
   }
 }
+
+/* Plan Table */
+@media screen and (max-width: 420px) {
+  .plan_table th {
+    min-width: 80px;
+    max-width: 100px !important;
+  }
+}

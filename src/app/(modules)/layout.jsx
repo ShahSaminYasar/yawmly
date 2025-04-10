@@ -26,9 +26,10 @@ const layout = ({ children }) => {
   return (
     <>
       <header
-        className="w-full p-5 bg-cover bg-no-repeat flex flex-col gap-0 items-center pb-10"
+        className="w-full p-5 bg-cover bg-no-repeat flex flex-col gap-0 items-center pb-10 bg-fixed bg-bottom"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,99,2,0.8),rgba(255,99,2,0.8)), url(/assets/bg-1.png)`,
+          backgroundImage: `linear-gradient(rgba(255,99,2,0.75),rgba(255,99,2,0.75)), url(/assets/bg-4.png)`,
+          backgroundBlendMode: "normal",
         }}
       >
         <div className="w-full flex justify-between items-center text-white font-normal text-lg">
@@ -39,7 +40,7 @@ const layout = ({ children }) => {
             <DDayViewer />
           </div>
         </div>
-        <div className="w-full flex flex-col items-center gap-1 text-white">
+        <div className="w-full flex flex-col items-center gap-1 text-white py-[5vh]">
           <h1 className="text-6xl font-semibold block text-center">
             {title || "Yawmly"}
           </h1>
@@ -48,7 +49,7 @@ const layout = ({ children }) => {
 
       <NavSidebar />
 
-      <main className="px-5 py-8 min-h-[75vh]">
+      <main className="px-5 py-8 min-h-[70vh]">
         <div className="w-full max-w-7xl mx-auto">{children}</div>
       </main>
 

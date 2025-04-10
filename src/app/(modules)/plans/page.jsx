@@ -1,6 +1,7 @@
 "use client";
 import PlanAddModal from "@/components/main/PlanAddModal";
 import PlanCard from "@/components/main/PlanCard";
+import PlanEditModal from "@/components/main/PlanEditModal";
 import { useSettings } from "@/services/SettingsProvider";
 import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
@@ -11,6 +12,12 @@ const page = () => {
   // States
   const [plans, setPlans] = useState([]);
   const [planAddModalVisible, setPlanAddModalVisible] = useState(false);
+  const [planEditModalVisible, setPlanEditModalVisible] = useState(false);
+  const [editingPlanData, setEditingPlanData] = useState({
+    index: 0,
+    title: "",
+    description: "",
+  });
 
   // Effects
   useEffect(() => {
@@ -21,7 +28,13 @@ const page = () => {
     <>
       <section className="flex flex-row gap-6 justify-center flex-wrap">
         {plans?.map((plan, index) => (
-          <PlanCard key={`${plan?.title}_${index}`} plan={plan} index={index} />
+          <PlanCard
+            key={`${plan?.title}_${index}`}
+            plan={plan}
+            index={index}
+            setPlanEditModalVisible={setPlanEditModalVisible}
+            setEditingPlanData={setEditingPlanData}
+          />
         ))}
       </section>
 
@@ -35,9 +48,18 @@ const page = () => {
         <FaPlus /> Add new plan
       </button>
 
+      {/* Plan Add Modal */}
       <PlanAddModal
         planAddModalVisible={planAddModalVisible}
         setPlanAddModalVisible={setPlanAddModalVisible}
+      />
+
+      {/* Plan Edit Modal */}
+      <PlanEditModal
+        planEditModalVisible={planEditModalVisible}
+        setPlanEditModalVisible={setPlanEditModalVisible}
+        editingPlanData={editingPlanData}
+        setEditingPlanData={setEditingPlanData}
       />
     </>
   );

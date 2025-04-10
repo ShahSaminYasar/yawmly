@@ -46,7 +46,7 @@ const DayPlan = ({ plan, planId }) => {
         style={{
           borderColor: colors?.accent,
         }}
-        className="w-full border-[1px] border-collapse text-[16px] text-center"
+        className="plan_table w-full border-[1px] border-collapse text-[14px] sm:text-[16px] text-center"
       >
         <thead
           style={{
@@ -55,7 +55,7 @@ const DayPlan = ({ plan, planId }) => {
           }}
         >
           <tr>
-            {plan?.plan?.header?.map((heading) => (
+            {plan?.plan?.header?.map((heading, i) => (
               <th
                 key={heading}
                 style={{
@@ -63,6 +63,13 @@ const DayPlan = ({ plan, planId }) => {
                   borderColor: colors?.accent,
                   padding: "8px",
                 }}
+                className={`${
+                  i === 0
+                    ? "w-fit min-w-[120px] max-w-[160px] sm:max-w-[220px] md:max-w-[220px]"
+                    : i === 1
+                    ? "w-fit min-w-[130px] max-w-[200px] sm:max-w-[220px] md:max-w-[250px]"
+                    : "w-fit min-w-[120px] max-w-[160px] sm:max-w-[220px] md:max-w-[220px]"
+                }`}
               >
                 {heading}
               </th>
