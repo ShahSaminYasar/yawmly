@@ -1,29 +1,16 @@
 import { useSettings } from "@/services/SettingsProvider";
+import { getDDayCount } from "@/utils/getDDayCount";
 import { useEffect, useState } from "react";
 
-const DDayViewer = () => {
+const DDayViewer = ({ dDate, className, style }) => {
   const { userData } = useSettings();
 
   // States
   const [dday, setDday] = useState("");
 
-  // Functions
-  const getDDayCount = (ddate) => {
-    let now = new Date();
-    let dday = new Date(ddate);
-
-    now.setHours(0, 0, 0, 0);
-    dday.setHours(0, 0, 0, 0);
-
-    let diffInMs = dday?.getTime() - now?.getTime();
-    let diffInDays = diffInMs / (1000 * 60 * 60 * 24);
-
-    return diffInDays;
-  };
-
   // Effects
   useEffect(() => {
-    let targetDDay = userData?.dDays?.[userData?.selectedDDay];
+    let targetDDay = dDate || userData?.dDays?.[userData?.selectedDDay]?.date;
     if (targetDDay) {
       setDday(getDDayCount(targetDDay));
     } else {
@@ -32,7 +19,10 @@ const DDayViewer = () => {
   }, [userData]);
 
   return (
-    <span className="font-semibold">
+    <span
+      className={`font-semibold ${className && className}`}
+      style={style || null}
+    >
       D{dday < 0 ? "+" : "-"}
       {dday ? (dday >= 0 ? dday : dday * -1) : "Day"}
     </span>

@@ -1,7 +1,8 @@
 "use client";
 import axios from "axios";
+import gsap from "gsap";
 import { useSession } from "next-auth/react";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 export const SettingsContext = createContext();
 
@@ -18,6 +19,10 @@ const SettingsProvider = ({ children }) => {
   const [userData, setUserData] = useState({});
   const [blockAddModalVisible, setBlockAddModalVisible] = useState(false);
   const [tagAddModalVisible, setTagAddModalVisible] = useState(false);
+  const [navSidebarOpen, setNavSidebarOpen] = useState(false);
+
+  // Refs
+  const navSidebarTL = useRef(gsap.timeline({ paused: true }));
 
   // Effects
   useEffect(() => {
@@ -55,6 +60,16 @@ const SettingsProvider = ({ children }) => {
     }
   }, [userData]);
 
+  // Functions
+  const toggleNavSidebarOpen = () => {
+    if (navSidebarOpen) {
+      navSidebarTL.current.reverse();
+    } else {
+      navSidebarTL.current.play();
+    }
+    setNavSidebarOpen((prev) => !prev);
+  };
+
   // Values which are shared all accross the app
   const values = {
     colors: {
@@ -74,6 +89,9 @@ const SettingsProvider = ({ children }) => {
     setBlockAddModalVisible,
     tagAddModalVisible,
     setTagAddModalVisible,
+    toggleNavSidebarOpen,
+    navSidebarTL,
+    setNavSidebarOpen,
   };
 
   return (

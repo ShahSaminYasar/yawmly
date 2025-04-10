@@ -124,7 +124,10 @@ const BlockEditModal = ({
         {/* Modal Closer Layer */}
         <div
           className="absolute z-[-1] top-0 left-0 w-full h-full bg-transparent"
-          onClick={() => setBlockEditModalVisible(false)}
+          onClick={() => {
+            setBlockEditModalVisible(false);
+            setTagAddModalVisible(false);
+          }}
         ></div>
 
         {/* Main Modal - Session Block Edit */}
