@@ -124,7 +124,10 @@ const SessionBlock = ({
           onChange={markAsDone}
           style={{
             borderWidth: "2px",
-            accentColor: tags[block?.tag]?.text,
+            accentColor:
+              tags[block?.tag]?.text?.toLowerCase() === "#ffffff"
+                ? "#000000"
+                : tags[block?.tag]?.text,
             width: "14px",
             height: "14px",
             cursor: "pointer",
@@ -132,7 +135,7 @@ const SessionBlock = ({
         />
         {block?.remarks?.note?.length > 0 && (
           <span
-            className="block w-fit max-w-[90%] h-fit max-h-[70px] overflow-auto text-ellipsis rounded-sm text-center text-[11px] p-1 text-slate-700 font-medium rounded-tr-none shadow-sm mx-auto opacity-80 group-hover:opacity-100"
+            className="block w-fit max-w-[90%] h-fit max-h-[70px] overflow-auto text-ellipsis rounded-sm text-center text-[11px] p-1 text-slate-700 font-medium rounded-tr-none shadow-sm mx-auto opacity-100"
             style={{
               color: tags[block?.tag]?.bg,
               backgroundColor: tags[block?.tag]?.text,
