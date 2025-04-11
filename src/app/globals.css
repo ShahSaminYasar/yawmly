@@ -11,22 +11,8 @@
 body {
   background: #ffffff;
   color: #1b1b1b;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
+  width: 100vw !important;
+  overflow-x: hidden !important;
 }
 
 /* Animation Classes */
@@ -72,9 +58,44 @@ body {
 }
 
 /* Plan Table */
-@media screen and (max-width: 420px) {
+.plan_table td {
+  overflow-x: auto !important;
+}
+
+@media screen and (max-width: 500px) {
+  .plan_table th:first-child,
+  .plan_table th:last-child {
+    min-width: 125px !important;
+  }
+
   .plan_table th {
-    min-width: 80px;
-    max-width: 100px !important;
+    font-size: 13px !important;
+    padding: 10px 8px !important;
+  }
+
+  .plan_table td {
+    font-size: 12px !important;
+    padding: 10px 8px !important;
+  }
+
+  .plan_table td span {
+    font-size: 10px !important;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .plan_table th:first-child,
+  .plan_table th:last-child {
+    min-width: 95px !important;
+  }
+
+  .plan_table th {
+    font-size: 12px !important;
+    padding: 10px 5px !important;
+  }
+
+  .plan_table td {
+    font-size: 10px !important;
+    padding: 10px 5px !important;
   }
 }

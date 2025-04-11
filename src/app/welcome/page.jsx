@@ -86,7 +86,7 @@ const page = () => {
               title: "Default plan",
               createdOn: new Date(),
               plan: {
-                header: ["Time", "Session Name", "Remarks"],
+                header: ["Time", "Session", "Remarks"],
                 rows: [
                   {
                     start: timeToMinutes(formData?.settings?.wakeUpTime),
@@ -168,9 +168,18 @@ const page = () => {
     if (
       status !== "loading" &&
       (session?.user || localStorage?.getItem("user"))
-    )
+    ) {
+      console.log(
+        "STATUS:",
+        status,
+        "Session User: ",
+        session?.user,
+        "Local User: ",
+        localStorage?.getItem("user")
+      );
       return router.push("/");
-  }, []);
+    }
+  }, [status, session]);
 
   return steps[step]?.component;
 };

@@ -1,6 +1,6 @@
 import { useSettings } from "@/services/SettingsProvider";
 import { timeToMinutes } from "@/utils/timeToMinutes";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import {
   FaCheck,
@@ -22,11 +22,7 @@ const BlockAddModal = () => {
 
   // States
   const [tags, setTags] = useState({});
-  const [newSessionTitle, setNewSessionTitle] = useState("");
-  const [newSessionStartTime, setNewSessionStartTime] = useState("");
-  const [newSessionEndTime, setNewSessionEndTime] = useState("");
   const [newSessionTag, setNewSessionTag] = useState("");
-  const [newSessionNote, setNewSessionNote] = useState("");
 
   // Effetcs
   useEffect(() => {
@@ -38,6 +34,15 @@ const BlockAddModal = () => {
       setNewSessionTag(Object.keys(tags)[0]);
     }
   }, [tags]);
+
+  // Memos
+  const inputStyle = useMemo(
+    () => ({
+      outlineColor: colors.accent,
+      borderColor: colors.accent,
+    }),
+    [colors]
+  );
 
   //   Functions
   const addNewTag = (e) => {
@@ -69,8 +74,8 @@ const BlockAddModal = () => {
   const addNewSession = (e) => {
     e.preventDefault();
 
-    let startTime = timeToMinutes(newSessionStartTime);
-    let endTime = timeToMinutes(newSessionEndTime);
+    let startTime = timeToMinutes(e.target?.start_time?.value);
+    let endTime = timeToMinutes(e.target?.end_time?.value);
 
     if (startTime === endTime) {
       return toast("Start and end times are the same!");
@@ -79,13 +84,13 @@ const BlockAddModal = () => {
     }
 
     let session = {
-      title: newSessionTitle,
+      title: e.target?.title?.value,
       start: startTime,
       end: endTime,
       tag: newSessionTag,
       remarks: {
         checked: false,
-        note: newSessionNote || "",
+        note: e.target?.note?.value || "",
       },
     };
 
@@ -110,19 +115,11 @@ const BlockAddModal = () => {
       setUserData(updatedUserData);
       setBlockAddModalVisible(false);
       setTagAddModalVisible(false);
-      setNewSessionTitle("");
-      setNewSessionStartTime("");
-      setNewSessionEndTime("");
-      setNewSessionTag("");
-      setNewSessionNote("");
     }
   };
 
-  {
-    /* Modal to add a block/row */
-  }
-  return (
-    blockAddModalVisible && (
+  if (blockAddModalVisible)
+    return (
       <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,82,35,0.12)] backdrop-blur-xs flex items-center justify-center fade p-4">
         {/* Modal Closer Layer */}
         <div
@@ -133,9 +130,9 @@ const BlockAddModal = () => {
           }}
         ></div>
 
-        {/* Main Modal - Session Add Block */}
+        {/* Block/Session Add Modal */}
         <div
-          className={`z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-lg fade-down ${
+          className={`z-20 w-full max-w-[370px] h-fit max-h-[95%] overflow-y-auto rounded-lg bg-white p-5 shadow-lg fade-down ${
             tagAddModalVisible ? "hidden" : "block"
           }`}
         >
@@ -159,14 +156,9 @@ const BlockAddModal = () => {
                 type="text"
                 name="title"
                 required
-                value={newSessionTitle}
-                onChange={(e) => setNewSessionTitle(e.target?.value)}
-                placeholder="Title of the session/break"
+                placeholder='Name of the session e.g. "Study Session 1"'
                 className="input w-full"
-                style={{
-                  outlineColor: colors.accent,
-                  borderColor: colors.accent,
-                }}
+                style={inputStyle}
               />
             </div>
 
@@ -179,13 +171,8 @@ const BlockAddModal = () => {
                 type="time"
                 name="start_time"
                 required
-                value={newSessionStartTime}
-                onChange={(e) => setNewSessionStartTime(e.target?.value)}
                 className="input w-full"
-                style={{
-                  outlineColor: colors.accent,
-                  borderColor: colors.accent,
-                }}
+                style={inputStyle}
               />
             </div>
 
@@ -198,13 +185,8 @@ const BlockAddModal = () => {
                 type="time"
                 name="end_time"
                 required
-                value={newSessionEndTime}
-                onChange={(e) => setNewSessionEndTime(e.target?.value)}
                 className="input w-full"
-                style={{
-                  outlineColor: colors.accent,
-                  borderColor: colors.accent,
-                }}
+                style={inputStyle}
               />
             </div>
 
@@ -218,12 +200,11 @@ const BlockAddModal = () => {
                 <div className="w-full relative">
                   <select
                     name="tag"
+                    className="input w-full"
                     value={newSessionTag}
                     onChange={(e) => setNewSessionTag(e.target.value)}
-                    className="input w-full"
                     style={{
-                      outlineColor: colors.accent,
-                      borderColor: colors.accent,
+                      ...inputStyle,
                       color: tags[newSessionTag]?.text,
                       backgroundColor: tags[newSessionTag]?.bg,
                     }}
@@ -270,14 +251,9 @@ const BlockAddModal = () => {
               <input
                 type="text"
                 name="note"
-                value={newSessionNote}
-                onChange={(e) => setNewSessionNote(e.target?.value)}
                 placeholder="Additional note to remember"
                 className="input w-full"
-                style={{
-                  outlineColor: colors.accent,
-                  borderColor: colors.accent,
-                }}
+                style={inputStyle}
               />
             </div>
 
@@ -312,7 +288,7 @@ const BlockAddModal = () => {
 
         {/* New Tag Add Modal */}
         {tagAddModalVisible && (
-          <div className="z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-lg fade-down relative">
+          <div className="z-20 w-full max-w-[370px] h-fit max-h-[95%] overflow-y-auto rounded-lg bg-white p-5 shadow-lg fade-down relative">
             {/* Go Back Button */}
             <button
               type="button"
@@ -345,10 +321,7 @@ const BlockAddModal = () => {
                 placeholder="Tag Name"
                 name="new_tag_name"
                 className="input w-full"
-                style={{
-                  outlineColor: colors.accent,
-                  borderColor: colors.accent,
-                }}
+                style={inputStyle}
               />
 
               {/* Tag Colors Input */}
@@ -396,7 +369,6 @@ const BlockAddModal = () => {
           </div>
         )}
       </div>
-    )
-  );
+    );
 };
 export default BlockAddModal;

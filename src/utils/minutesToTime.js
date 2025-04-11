@@ -13,7 +13,10 @@ export const minutesToTime = (minsValue, defaultFormat = false) => {
       "0"
     )}`;
   } else if (preferredTimeFormat === "T") {
-    result = `${hours}:${String(minutes).padStart(2, "0")}`;
+    result = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}`;
   } else {
     let isPM = hours >= 12;
     hours = hours % 12 || 12;

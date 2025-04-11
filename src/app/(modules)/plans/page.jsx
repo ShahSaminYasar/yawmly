@@ -24,6 +24,11 @@ const page = () => {
     setPlans(userData?.plans || []);
   }, [userData]);
 
+  // Test
+  useEffect(() => {
+    console.log("EPD:", editingPlanData);
+  }, [editingPlanData]);
+
   return (
     <>
       <section className="flex flex-row gap-6 justify-center flex-wrap">

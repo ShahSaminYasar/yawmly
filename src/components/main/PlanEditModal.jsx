@@ -44,8 +44,15 @@ const PlanEditModal = ({
     let title = editingPlanData?.title;
     let isTheActivePlan = editingPlanData?.index === userData?.selectedPlan;
 
-    if (!editingPlanData?.index)
+    if (typeof editingPlanData?.index !== "number") {
+      console.log("Index paay nai", editingPlanData?.index);
       return toast.error("Target plan not found, please refresh the app.");
+    }
+
+    if (userData?.plans?.length === 1)
+      return toast(
+        "You need to keep at least one plan. Please make a new one to delete this."
+      );
 
     setUserData({
       ...userData,
@@ -74,7 +81,7 @@ const PlanEditModal = ({
 
         {/* Plan Edit Modal */}
         <div
-          className={`z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-lg fade-down  ${
+          className={`z-20 w-full max-w-[370px] h-fit max-h-[95%] overflow-y-auto rounded-lg bg-white p-5 shadow-lg fade-down  ${
             planDeleteModalVisible ? "hidden" : "block"
           }`}
         >
@@ -188,7 +195,7 @@ const PlanEditModal = ({
         {/* Plan Delete Modal */}
         {planDeleteModalVisible && (
           <div
-            className={`z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-lg fade-down`}
+            className={`z-20 w-full max-w-[370px] h-fit max-h-[95%] overflow-y-auto rounded-lg bg-white p-5 shadow-lg fade-down`}
           >
             <span
               className="text-2xl font-normal block text-center mb-3"

@@ -1,13 +1,14 @@
 import { useSettings } from "@/services/SettingsProvider";
 import { minutesToTime } from "@/utils/minutesToTime";
 import { timeToMinutes } from "@/utils/timeToMinutes";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import {
   FaCheck,
   FaChevronDown,
   FaChevronLeft,
   FaCirclePlus,
+  FaTrash,
 } from "react-icons/fa6";
 
 const BlockEditModal = ({
@@ -20,7 +21,18 @@ const BlockEditModal = ({
 }) => {
   const { colors, userData, setUserData } = useSettings();
 
+  // States
   const [tagAddModalVisible, setTagAddModalVisible] = useState(false);
+  const [blockDeleteModalVisible, setBlockDeleteModalVisible] = useState(false);
+
+  // Memos
+  const inputStyle = useMemo(
+    () => ({
+      outlineColor: colors.accent,
+      borderColor: colors.accent,
+    }),
+    [colors]
+  );
 
   // Functions
   const addNewTag = (e) => {
@@ -118,6 +130,38 @@ const BlockEditModal = ({
     }
   };
 
+  const deleteBlock = () => {
+    let startTime = minutesToTime(editingBlockData?.start);
+    let endTime = minutesToTime(editingBlockData?.end);
+
+    let updatedUserData = { ...userData };
+    updatedUserData = {
+      ...updatedUserData,
+      plans: updatedUserData?.plans?.map((p, i) =>
+        i === userData?.selectedPlan
+          ? {
+              ...p,
+              plan: {
+                ...p.plan,
+                rows: p?.plan?.rows
+                  ?.sort((a, b) => a.start - b.start)
+                  ?.filter((_, rid) => rid !== editingBlockIndex),
+              },
+            }
+          : p
+      ),
+    };
+
+    setUserData(updatedUserData);
+    setEditingBlockData({});
+    setBlockDeleteModalVisible(false);
+    setBlockEditModalVisible(false);
+    setTagAddModalVisible(false);
+    return toast.success(
+      `Session ${startTime}-${endTime} was deleted successfully`
+    );
+  };
+
   return (
     blockEditModalVisible && (
       <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,82,35,0.12)] backdrop-blur-xs flex items-center justify-center fade p-4">
@@ -130,10 +174,10 @@ const BlockEditModal = ({
           }}
         ></div>
 
-        {/* Main Modal - Session Block Edit */}
+        {/* Block/Session Edit Modal */}
         <div
-          className={`z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-lg fade-down ${
-            tagAddModalVisible ? "hidden" : "block"
+          className={`z-20 w-full max-w-[370px] h-fit max-h-[95%] overflow-y-auto rounded-lg bg-white p-5 shadow-lg fade-down ${
+            tagAddModalVisible || blockDeleteModalVisible ? "hidden" : "block"
           }`}
         >
           <span
@@ -156,19 +200,10 @@ const BlockEditModal = ({
                 type="text"
                 name="title"
                 required
-                value={editingBlockData?.title}
-                onChange={(e) =>
-                  setEditingBlockData((prev) => ({
-                    ...prev,
-                    title: e.target?.value,
-                  }))
-                }
-                placeholder="Title of the session/break"
+                defaultValue={editingBlockData?.title}
+                placeholder='Name of the session e.g. "Study Session 1"'
                 className="input w-full"
-                style={{
-                  outlineColor: colors.accent,
-                  borderColor: colors.accent,
-                }}
+                style={inputStyle}
               />
             </div>
 
@@ -181,18 +216,9 @@ const BlockEditModal = ({
                 type="time"
                 name="start_time"
                 required
-                value={minutesToTime(editingBlockData?.start, true)}
-                onChange={(e) =>
-                  setEditingBlockData((prev) => ({
-                    ...prev,
-                    start: timeToMinutes(e.target?.value),
-                  }))
-                }
+                defaultValue={minutesToTime(editingBlockData?.start, true)}
                 className="input w-full"
-                style={{
-                  outlineColor: colors.accent,
-                  borderColor: colors.accent,
-                }}
+                style={inputStyle}
               />
             </div>
 
@@ -205,18 +231,9 @@ const BlockEditModal = ({
                 type="time"
                 name="end_time"
                 required
-                value={minutesToTime(editingBlockData?.end, true)}
-                onChange={(e) =>
-                  setEditingBlockData((prev) => ({
-                    ...prev,
-                    end: timeToMinutes(e.target?.value),
-                  }))
-                }
+                defaultValue={minutesToTime(editingBlockData?.end, true)}
                 className="input w-full"
-                style={{
-                  outlineColor: colors.accent,
-                  borderColor: colors.accent,
-                }}
+                style={inputStyle}
               />
             </div>
 
@@ -239,8 +256,7 @@ const BlockEditModal = ({
                     }
                     className="input w-full"
                     style={{
-                      outlineColor: colors.accent,
-                      borderColor: colors.accent,
+                      ...inputStyle,
                       color: tags[editingBlockData?.tag]?.text,
                       backgroundColor: tags[editingBlockData?.tag]?.bg,
                     }}
@@ -284,16 +300,7 @@ const BlockEditModal = ({
               <input
                 name="checked"
                 type="checkbox"
-                checked={editingBlockData?.remarks?.checked}
-                onChange={(e) => {
-                  setEditingBlockData({
-                    ...editingBlockData,
-                    remarks: {
-                      ...editingBlockData?.remarks,
-                      checked: !editingBlockData?.remarks?.checked,
-                    },
-                  });
-                }}
+                defaultChecked={editingBlockData?.remarks?.checked}
               />
               <span className="text-sm font-normal block text-left text-slate-600 mb-1">
                 Mark as done
@@ -307,24 +314,20 @@ const BlockEditModal = ({
               <input
                 type="text"
                 name="note"
-                value={editingBlockData?.remarks?.note}
-                onChange={(e) =>
-                  setEditingBlockData({
-                    ...editingBlockData,
-                    remarks: {
-                      ...editingBlockData?.remarks,
-                      note: e.target?.value,
-                    },
-                  })
-                }
+                defaultValue={editingBlockData?.remarks?.note}
                 placeholder="Additional note to remember"
                 className="input w-full"
-                style={{
-                  outlineColor: colors.accent,
-                  borderColor: colors.accent,
-                }}
+                style={inputStyle}
               />
             </div>
+
+            <button
+              type="button"
+              onClick={() => setBlockDeleteModalVisible(true)}
+              className={`text-sm font-medium cursor-pointer active:scale-[96%] flex items-center gap-2 w-full px-3 py-2 rounded-sm bg-red-500 text-white`}
+            >
+              <FaTrash className="text-sm" /> Delete session block
+            </button>
 
             <div className="flex flex-row gap-2 items-center">
               <button
@@ -357,7 +360,11 @@ const BlockEditModal = ({
 
         {/* New Tag Add Modal */}
         {tagAddModalVisible && (
-          <div className="z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-lg fade-down relative">
+          <div
+            className={`z-20 w-full max-w-[370px] h-fit max-h-[95%] overflow-y-auto rounded-lg bg-white p-5 shadow-lg fade-down relative ${
+              blockDeleteModalVisible ? "hidden" : "block"
+            }`}
+          >
             {/* Go Back Button */}
             <button
               type="button"
@@ -390,10 +397,7 @@ const BlockEditModal = ({
                 placeholder="Tag Name"
                 name="new_tag_name"
                 className="input w-full"
-                style={{
-                  outlineColor: colors.accent,
-                  borderColor: colors.accent,
-                }}
+                style={inputStyle}
               />
 
               {/* Tag Colors Input */}
@@ -438,6 +442,61 @@ const BlockEditModal = ({
                 Add New Tag
               </button>
             </form>
+          </div>
+        )}
+
+        {/* Block Delete Modal */}
+        {blockDeleteModalVisible && (
+          <div
+            className={`z-20 w-full max-w-[370px] h-fit max-h-[95%] overflow-y-auto rounded-lg bg-white p-5 shadow-lg fade-down`}
+          >
+            <span
+              className="text-2xl font-normal block text-center mb-3"
+              style={{
+                color: colors?.primary,
+              }}
+            >
+              Delete Session
+            </span>
+
+            <p className="block text-center text-xl font-bold mb-2">
+              Are you sure you want to delete the session?
+            </p>
+
+            <span className="block text-center text-lg font-normal mb-0">
+              Start: {minutesToTime(editingBlockData?.start)}
+            </span>
+            <span className="block text-center text-lg font-normal mb-2">
+              End: {minutesToTime(editingBlockData?.end)}
+            </span>
+
+            <p className="block text-center text-lg italic font-medium mb-3">
+              This action cannot be undone!
+            </p>
+
+            <div className="flex flex-row gap-2 items-center">
+              <button
+                type="button"
+                onClick={() => setBlockDeleteModalVisible(false)}
+                className="w-[50%] text-sm font-normal block text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer bg-white border-2"
+                style={{
+                  color: colors?.primary,
+                  borderColor: colors?.primary,
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={deleteBlock}
+                className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer text-white border-2"
+                style={{
+                  backgroundColor: colors?.primary,
+                  borderColor: colors?.primary,
+                }}
+              >
+                Yes, delete it
+              </button>
+            </div>
           </div>
         )}
       </div>

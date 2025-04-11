@@ -45,13 +45,15 @@ const DayPlan = ({ plan, planId }) => {
       <table
         style={{
           borderColor: colors?.accent,
+          outlineColor: "rgba(255, 145, 77, 0.34)",
         }}
-        className="plan_table w-full border-[1px] border-collapse text-[14px] sm:text-[16px] text-center"
+        className="plan_table rounded-lg overflow-hidden outline-2 w-full border-[1px] border-collapse text-[14px] sm:text-[15px] text-center lg:table-fixed"
       >
         <thead
           style={{
             backgroundColor: colors?.primary,
             color: "#fff",
+            width: "100%",
           }}
         >
           <tr>
@@ -65,11 +67,11 @@ const DayPlan = ({ plan, planId }) => {
                 }}
                 className={`${
                   i === 0
-                    ? "w-fit min-w-[120px] max-w-[160px] sm:max-w-[220px] md:max-w-[220px]"
+                    ? "min-w-[170px] sm:min-w-[210px]"
                     : i === 1
-                    ? "w-fit min-w-[130px] max-w-[200px] sm:max-w-[220px] md:max-w-[250px]"
-                    : "w-fit min-w-[120px] max-w-[160px] sm:max-w-[220px] md:max-w-[220px]"
-                }`}
+                    ? "w-full"
+                    : "min-w-[170px] sm:min-w-[210px]"
+                } md:w-1/3`}
               >
                 {heading}
               </th>

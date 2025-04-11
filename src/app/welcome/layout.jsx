@@ -13,7 +13,7 @@ const layout = ({ children }) => {
         }}
       ></div>
       <div
-        className="w-full max-w-[400px] h-fit rounded-lg bg-white shadow-sm p-3 absolute z-10 left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] border-[3px]"
+        className="w-[90%] max-w-[400px] h-fit rounded-lg bg-white shadow-sm p-3 absolute z-10 left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] border-[3px]"
         style={{
           borderColor: colors.accent,
         }}

@@ -28,6 +28,8 @@ const NavSidebar = () => {
   // Effects
   useGSAP(() => {
     const ctx = gsap.context(() => {
+      navSidebarTL.current.clear().pause(0);
+
       gsap.set("#nav_sidebar_container", {
         opacity: 0,
         pointerEvents: "none",
@@ -49,7 +51,7 @@ const NavSidebar = () => {
     });
 
     return () => ctx.revert();
-  }, []);
+  }, [navSidebarTL]);
 
   const visitNavLink = (link) => {
     toggleNavSidebarOpen();
@@ -71,7 +73,7 @@ const NavSidebar = () => {
 
       <div
         id="nav_sidebar"
-        className="-translate-x-[150%] w-[90%] max-w-[270px] h-full bg-white shadow-lg rounded-lg relative p-5 flex flex-col gap-2 items-start pt-12 z-40"
+        className="-translate-x-[150%] w-[90%] max-w-[270px] h-full overflow-y-auto bg-white shadow-lg rounded-lg relative p-5 flex flex-col gap-2 items-start pt-12 z-40"
       >
         {/* Navbar Collapse Button */}
         <button
@@ -137,7 +139,7 @@ const NavSidebar = () => {
             View all <FaArrowRight />
           </span> */}
         </button>
-        <div className="w-full mt-0 h-fit max-h-[90px] overflow-y-auto">
+        <div className="w-full mt-0 min-h-[55px] max-h-[90px] overflow-y-auto">
           {userData?.plans?.map((plan, index) => (
             <button
               key={`${plan?.title}_${index}`}
@@ -170,7 +172,7 @@ const NavSidebar = () => {
             View all <FaArrowRight />
           </span> */}
         </button>
-        <div className="w-full mt-0 flex flex-col gap-1 h-fit max-h-[108px] overflow-y-auto">
+        <div className="w-full mt-0 flex flex-col gap-1 min-h-[55px] max-h-[108px] overflow-y-auto">
           {userData?.dDays?.map((dDay, index) => (
             <button
               key={`${dDay?.name}_${index}`}

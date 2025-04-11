@@ -56,7 +56,7 @@ const SessionBlock = ({
 
   return (
     <tr
-      className="text-[12px] sm:text-sm group"
+      className="text-[12px] sm:text-[14px] group"
       style={{
         backgroundColor: tags[block?.tag]?.bg,
         color: tags[block?.tag]?.text,
@@ -132,7 +132,7 @@ const SessionBlock = ({
         />
         {block?.remarks?.note?.length > 0 && (
           <span
-            className="block w-fit max-w-[120px] h-fit max-h-[100px] overflow-hidden text-ellipsis rounded-sm text-center text-[11px] px-1 text-slate-700 font-medium rounded-tr-none shadow-sm mx-auto opacity-80 group-hover:opacity-100"
+            className="block w-fit max-w-[90%] h-fit max-h-[70px] overflow-auto text-ellipsis rounded-sm text-center text-[11px] p-1 text-slate-700 font-medium rounded-tr-none shadow-sm mx-auto opacity-80 group-hover:opacity-100"
             style={{
               color: tags[block?.tag]?.bg,
               backgroundColor: tags[block?.tag]?.text,

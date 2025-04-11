@@ -10,8 +10,8 @@ const LoadingScreen = () => {
 
   return (
     <div
-      className={`fixed min-h-screen w-full place-items-center gap-3 bg-white top-0 left-0 z-[100] fade ${
-        isVisible ? "grid pointer-events-auto" : "hidden pointer-events-none"
+      className={`fixed h-screen w-[100vw] items-center justify-center gap-3 bg-white top-0 left-0 z-[100] fade ${
+        isVisible ? "flex pointer-events-auto" : "hidden pointer-events-none"
       }`}
       style={{
         color: colors?.primary,

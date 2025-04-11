@@ -21,9 +21,9 @@ const DDayEditModal = ({
           onClick={() => setDDayEditModalVisible(false)}
         ></div>
 
-        {/* Main Modal - Session Add Block */}
+        {/* D-Day Edit Modal */}
         <div
-          className={`z-20 w-full max-w-[370px] rounded-lg bg-white p-5 shadow-lg fade-down`}
+          className={`z-20 w-full max-w-[370px] h-fit max-h-[95%] overflow-y-auto rounded-lg bg-white p-5 shadow-lg fade-down`}
         >
           <span
             className="text-2xl font-normal block text-center mb-3"
