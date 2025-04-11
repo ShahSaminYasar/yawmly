@@ -8,7 +8,7 @@ export async function GET(req) {
 
   try {
     const db = await connectDB();
-    const usersCollection = db.collection("usersTest");
+    const usersCollection = db.collection("users");
 
     let res;
 

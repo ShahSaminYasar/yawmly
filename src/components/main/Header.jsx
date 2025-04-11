@@ -24,25 +24,11 @@ const Header = () => {
       ?.split("")
       ?.map(
         (letter) =>
-          `<span style='display: inline-block;'>${
+          `<span style='display: inline-block; transform: translate(0px, 200px); opacity: 0%;'>${
             letter === " " ? "&nbsp;" : letter
           }</span>`
       )
       ?.join("");
-
-    gsap.set("#heading span", {
-      y: "200px",
-      opacity: 0,
-      duration: 0,
-      delay: 0,
-      ease: "none",
-    });
-
-    gsap.set("#subheading", {
-      opacity: 0,
-      duration: 0,
-      delay: 0,
-    });
 
     headerTL
       .to("#heading", {
@@ -53,17 +39,17 @@ const Header = () => {
       .to("#heading span", {
         y: "0px",
         opacity: 1,
-        duration: 0.3,
-        stagger: 0.067,
+        duration: 0.5,
+        stagger: 0.04,
       })
       .to("#subheading", {
         opacity: 1,
-        duration: 0.3,
+        duration: 0.18,
       })
       .to("#nav_burger, #d_day", {
         translateX: "0px",
         duration: 0.8,
-        delay: -0.25,
+        delay: -0.5,
         ease: "elastic.inOut(2,1)",
       });
   }, [status, globalLoading]);
@@ -89,7 +75,7 @@ const Header = () => {
           <DDayViewer />
         </div>
       </div>
-      <div className="w-full flex flex-col items-center gap-0 text-white">
+      <div className="w-full flex flex-col items-center gap-0 text-white py-[2vh]">
         <div className="overflow-hidden py-1">
           <h1
             id="heading"
@@ -98,7 +84,7 @@ const Header = () => {
             Yawmly
           </h1>
         </div>
-        <h3 id="subheading" className="text-lg font-light mt-1">
+        <h3 id="subheading" className="text-lg font-light mt-1 opacity-0">
           Productivity, daily.
         </h3>
       </div>

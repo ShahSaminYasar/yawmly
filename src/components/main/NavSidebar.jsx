@@ -44,7 +44,7 @@ const NavSidebar = () => {
         })
         .to("#nav_sidebar", {
           translateX: "0%",
-          duration: 0.2,
+          duration: 0.12,
           ease: "power1.inOut",
           delay: -0.03,
         });
@@ -57,7 +57,7 @@ const NavSidebar = () => {
     toggleNavSidebarOpen();
     setTimeout(() => {
       return redirect(link);
-    }, 800);
+    }, 100);
   };
 
   return (
