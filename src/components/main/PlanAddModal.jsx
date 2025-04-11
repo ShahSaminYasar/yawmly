@@ -29,6 +29,7 @@ const PlanAddModal = ({ planAddModalVisible, setPlanAddModalVisible }) => {
       selectedPlan: setAsActive
         ? userData?.plans?.length
         : userData?.selectedPlan,
+      lastUpdatedAt: new Date().toISOString(),
     };
 
     setUserData(updatedUserData);
@@ -38,7 +39,7 @@ const PlanAddModal = ({ planAddModalVisible, setPlanAddModalVisible }) => {
 
   return (
     planAddModalVisible && (
-      <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,82,35,0.12)] backdrop-blur-xs flex items-center justify-center fade p-4">
+      <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,255,255,0.3)] backdrop-blur-xs flex items-center justify-center fade p-4">
         {/* Modal Closer Layer */}
         <div
           className="absolute z-[-1] top-0 left-0 w-full h-full bg-transparent"

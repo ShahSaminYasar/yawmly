@@ -1,4 +1,5 @@
 import { useSettings } from "@/services/SettingsProvider";
+import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaArrowRight } from "react-icons/fa6";
@@ -71,6 +72,13 @@ const Step0 = ({ nextStep, formData, setFormData }) => {
           Next <FaArrowRight />
         </button>
       </form>
+
+      <Link
+        href="/login"
+        className="block text-center text-sm text-slate-600 underline my-2"
+      >
+        I already have an account
+      </Link>
     </div>
   );
 };

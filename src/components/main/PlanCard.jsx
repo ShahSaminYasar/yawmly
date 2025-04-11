@@ -86,7 +86,11 @@ const PlanCard = ({
           {/* Set as Active Button */}
           <button
             onClick={() =>
-              setUserData((prev) => ({ ...prev, selectedPlan: index }))
+              setUserData((prev) => ({
+                ...prev,
+                selectedPlan: index,
+                lastUpdatedAt: new Date().toISOString(),
+              }))
             }
             className="w-full rounded-xl border-2 px-3 py-2 flex items-center gap-2 justify-center cursor-pointer active:scale-[96%] disabled:opacity-50 text-sm"
             style={{

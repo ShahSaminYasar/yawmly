@@ -43,6 +43,7 @@ const page = () => {
       ...userData,
       dDays: newDDays,
       selectedDDay: setAsActive ? index : userData?.selectedDDay,
+      lastUpdatedAt: new Date().toISOString(),
     };
 
     setUserData({ ...updatedUserData });

@@ -24,7 +24,7 @@ const Header = () => {
       ?.split("")
       ?.map(
         (letter) =>
-          `<span style='display: inline-block; transform: translate(0px, 200px); opacity: 0%;'>${
+          `<span style='display: inline-block; transform: translate(0px, 50px); opacity: 50%;'>${
             letter === " " ? "&nbsp;" : letter
           }</span>`
       )
@@ -39,8 +39,9 @@ const Header = () => {
       .to("#heading span", {
         y: "0px",
         opacity: 1,
-        duration: 0.5,
-        stagger: 0.04,
+        duration: 0.15,
+        stagger: 0.03,
+        ease: "none",
       })
       .to("#subheading", {
         opacity: 1,
@@ -49,7 +50,7 @@ const Header = () => {
       .to("#nav_burger, #d_day", {
         translateX: "0px",
         duration: 0.8,
-        delay: -0.5,
+        delay: 0,
         ease: "elastic.inOut(2,1)",
       });
   }, [status, globalLoading]);

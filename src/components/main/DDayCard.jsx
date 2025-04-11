@@ -50,6 +50,7 @@ const DDayCard = ({
     setUserData((prev) => ({
       ...prev,
       selectedDDay: index,
+      lastUpdatedAt: new Date().toISOString(),
     }));
     return toast.success(`${dDay?.name} has been set as the primary D-Day`);
   };

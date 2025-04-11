@@ -105,10 +105,18 @@ const page = () => {
           dDays: [],
           selectedPlan: 0,
           selectedDDay: 0,
+          lastUpdatedAt: new Date().toISOString(),
         };
-        const res = await axios.post("/api/auth/register", userData);
-        if (res?.data?.ok) {
+        const res = await axios.post("/api/auth/new-user", userData);
+        if (res?.data?.ok && res?.data?.uid) {
+          userData.uid = res?.data?.uid;
           localStorage.setItem("user", JSON.stringify(userData));
+          localStorage.setItem(
+            "flags",
+            JSON.stringify({
+              welcomed: true,
+            })
+          );
           setUserData(userData);
           setUpdatingUserData(false);
           return router.push("/");
@@ -169,14 +177,6 @@ const page = () => {
       status !== "loading" &&
       (session?.user || localStorage?.getItem("user"))
     ) {
-      console.log(
-        "STATUS:",
-        status,
-        "Session User: ",
-        session?.user,
-        "Local User: ",
-        localStorage?.getItem("user")
-      );
       return router.push("/");
     }
   }, [status, session]);

@@ -2,6 +2,7 @@ import { connectDB } from "@/lib/connectDB";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
 
 export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -21,24 +22,26 @@ export const authOptions = {
 
         const db = await connectDB();
         const usersCollection = db.collection("users");
+
         const user = await usersCollection.findOne({ email });
-        if (!user) return null;
+        if (!user) throw new Error("User not found, please register");
 
         const checkPass = bcrypt.compareSync(password, user?.password);
-        if (!checkPass) return null;
+        if (!checkPass) throw new Error("Incorrect Password");
 
-        return { uid: user?.uid, email };
+        const userObj = { uid: user?._id, email };
+
+        return userObj;
       },
     }),
   ],
   callbacks: {
     async signIn(user) {
-      console.log("In signIn...");
+      if (!user.user.email) return null;
       return true;
     },
 
     async jwt({ token, user }) {
-      console.log("In JWT...");
       if (user) {
         token.uid = user.uid;
         token.email = user.email;
@@ -48,10 +51,9 @@ export const authOptions = {
     },
 
     async session({ session, token }) {
-      console.log("In session...");
       const { uid, email } = token;
-      session.uid = uid;
-      session.email = email;
+      session.user.uid = uid;
+      session.user.email = email;
 
       return session;
     },

@@ -20,8 +20,8 @@ const PlanEditModal = ({
 
     let setAsActive = e.target.set_as_active?.checked;
     let index = editingPlanData?.index;
-    let title = editingPlanData?.title;
-    let description = editingPlanData?.description;
+    let title = e.target?.title?.value;
+    let description = e.target?.description?.value;
 
     if (typeof index !== "number") {
       return toast.error("Invalid plan index.");
@@ -33,6 +33,7 @@ const PlanEditModal = ({
         i === index ? { ...p, title, description } : p
       ),
       selectedPlan: setAsActive ? index : userData?.selectedPlan,
+      lastUpdatedAt: new Date().toISOString(),
     };
 
     setUserData(updatedUserData);
@@ -58,6 +59,7 @@ const PlanEditModal = ({
       ...userData,
       plans: userData?.plans?.filter((_, i) => i !== editingPlanData?.index),
       selectedPlan: isTheActivePlan ? 0 : userData?.selectedPlan,
+      lastUpdatedAt: new Date().toISOString(),
     });
     setPlanDeleteModalVisible(false);
     setPlanEditModalVisible(false);
@@ -68,7 +70,7 @@ const PlanEditModal = ({
   return (
     planEditModalVisible && (
       <div
-        className={`fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,82,35,0.12)] backdrop-blur-xs flex items-center justify-center fade p-4`}
+        className={`fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,255,255,0.3)] backdrop-blur-xs flex items-center justify-center fade p-4`}
       >
         {/* Modal Closer Layer */}
         <div
@@ -105,13 +107,7 @@ const PlanEditModal = ({
                 type="text"
                 name="title"
                 required
-                value={editingPlanData?.title}
-                onChange={(e) =>
-                  setEditingPlanData({
-                    ...editingPlanData,
-                    title: e.target?.value,
-                  })
-                }
+                defaultValue={editingPlanData?.title}
                 placeholder="Name of the plan"
                 className="input w-full"
                 style={{
@@ -130,13 +126,7 @@ const PlanEditModal = ({
                 name="description"
                 placeholder="Description of the plan"
                 rows={5}
-                value={editingPlanData?.description}
-                onChange={(e) =>
-                  setEditingPlanData({
-                    ...editingPlanData,
-                    description: e.target?.value,
-                  })
-                }
+                defaultValue={editingPlanData?.description}
                 className="textarea w-full resize-none"
                 style={{
                   outlineColor: colors.accent,

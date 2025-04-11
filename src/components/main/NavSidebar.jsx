@@ -63,7 +63,7 @@ const NavSidebar = () => {
   return (
     <nav
       id="nav_sidebar_container"
-      className="opacity-0 pointer-events-none fixed z-40 top-0 left-0 w-full h-full min-h-screen bg-[rgba(255,82,35,0.12)] backdrop-blur-xs p-5"
+      className="opacity-0 pointer-events-none fixed z-40 top-0 left-0 w-full h-full min-h-screen bg-[rgba(255,255,255,0.3)] backdrop-blur-xs p-5"
     >
       {/* Nav Closer Layer */}
       <div
@@ -153,7 +153,11 @@ const NavSidebar = () => {
                   index === userData?.selectedPlan ? colors?.accent : "#595959",
               }}
               onClick={() =>
-                setUserData((prev) => ({ ...prev, selectedPlan: index }))
+                setUserData((prev) => ({
+                  ...prev,
+                  selectedPlan: index,
+                  lastUpdatedAt: new Date().toISOString(),
+                }))
               }
             >
               <span>{plan?.title}</span>
@@ -182,7 +186,11 @@ const NavSidebar = () => {
                 color: dDay?.textColor,
               }}
               onClick={() =>
-                setUserData((prev) => ({ ...prev, selectedDDay: index }))
+                setUserData((prev) => ({
+                  ...prev,
+                  selectedDDay: index,
+                  lastUpdatedAt: new Date().toISOString(),
+                }))
               }
             >
               <DDayViewer dDate={dDay?.date} className={"text-xl font-bold"} />

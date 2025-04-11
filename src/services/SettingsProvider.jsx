@@ -3,6 +3,7 @@ import axios from "axios";
 import gsap from "gsap";
 import { useSession } from "next-auth/react";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 export const SettingsContext = createContext();
 
@@ -20,41 +21,79 @@ const SettingsProvider = ({ children }) => {
   const [blockAddModalVisible, setBlockAddModalVisible] = useState(false);
   const [tagAddModalVisible, setTagAddModalVisible] = useState(false);
   const [navSidebarOpen, setNavSidebarOpen] = useState(false);
+  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
 
   // Refs
   const navSidebarTL = useRef(gsap.timeline({ paused: true }));
+
+  // Functions
+  const updateOnlineUserData = async (data) => {
+    let res = await axios.put("/api/put/users", data);
+    console.log("PUT of online data (log): ", res);
+  };
 
   // Effects
   useEffect(() => {
     if (status === "loading") return;
 
+    // Load the local version
+    let localUserData = JSON.parse(localStorage.getItem("user"));
+
     if (status === "authenticated") {
+      console.log("Session found: ", session);
       const getUserData = async () => {
-        let res = await axios.get(`/api/get/user?uid=${session?.user?.uid}`);
-        setUserData(res?.data?.[0]);
-        console.log("User's data was set from DB.");
+        // Get the online version
+        let onlineUserData = await axios.get(
+          `/api/get/users?uid=${session?.user?.uid}`
+        );
+        onlineUserData = onlineUserData?.data?.data?.[0];
+
+        // Compare local and online versions
+        if (
+          localUserData &&
+          localUserData?.lastUpdatedAt > onlineUserData?.lastUpdatedAt
+        ) {
+          // If local version is the latest one, then set userData to local version
+          setUserData(localUserData);
+          console.log("User's data was set from LS: ", localUserData);
+
+          // Replace the online version with the local one
+          console.log("Uploading user data: ", localUserData);
+          updateOnlineUserData(localUserData);
+        } else {
+          // If online version is the latest one, then set userData to the online version
+          setUserData(onlineUserData);
+          console.log("User's data was set from DB: ", onlineUserData);
+        }
         return setGlobalLoading(false);
       };
       getUserData();
     }
 
-    let localData = localStorage.getItem("user");
-
-    if (status === "unauthenticated" && localData) {
-      localData = JSON.parse(localData);
-      setUserData(localData);
+    if (status === "unauthenticated" && localUserData) {
+      setUserData(localUserData);
       console.log("User's data was set from local data.");
       setGlobalLoading(false);
     }
 
-    if (!session?.user && status === "unauthenticated" && !localData) {
+    if (!session?.user && status === "unauthenticated" && !localUserData) {
       console.log("No saved data found.");
+      setUserData({});
       return setGlobalLoading(false);
     }
   }, [status, session]);
 
   useEffect(() => {
-    if (localStorage.getItem("user") && userData?.settings) {
+    if (status === "authenticated") {
+      localStorage.setItem("user", JSON.stringify(userData));
+      updateOnlineUserData(userData);
+      console.log("Local data synced with DB");
+    }
+    if (
+      status !== "authenticated" &&
+      localStorage.getItem("user") &&
+      userData?.settings
+    ) {
       localStorage.setItem("user", JSON.stringify(userData));
       console.log("Local data uptated. ", userData);
     }
@@ -92,6 +131,8 @@ const SettingsProvider = ({ children }) => {
     toggleNavSidebarOpen,
     navSidebarTL,
     setNavSidebarOpen,
+    logoutModalVisible,
+    setLogoutModalVisible,
   };
 
   return (

@@ -44,6 +44,7 @@ const SessionBlock = ({
           }
           return plan;
         }),
+        lastUpdatedAt: new Date().toISOString(),
       };
 
       return setUserData(updatedUserData);

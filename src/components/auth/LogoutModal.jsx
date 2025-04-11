@@ -1,38 +1,28 @@
 import { useSettings } from "@/services/SettingsProvider";
-import moment from "moment";
-import toast from "react-hot-toast";
+import { signOut } from "next-auth/react";
+import { GoSignOut } from "react-icons/go";
 
-const DDayDeleteModal = ({
-  dDayDeleteModalVisible,
-  setDDayDeleteModalVisible,
-  index,
-}) => {
-  const { colors, userData, setUserData } = useSettings();
+const LogoutModal = () => {
+  const { logoutModalVisible, setLogoutModalVisible, colors } = useSettings();
 
-  //   Functions
-  const deleteDDay = () => {
-    let name = userData?.dDays?.[index]?.name;
-    let isTheActiveDDay = index === userData?.selectedDDay;
-    setUserData((prev) => ({
-      ...prev,
-      dDays: userData?.dDays?.filter((d, i) => i !== index),
-      selectedDDay: isTheActiveDDay ? 0 : userData?.selectedDDay,
-      lastUpdatedAt: new Date().toISOString(),
-    }));
-    setDDayDeleteModalVisible(false);
-    return toast.success(`The D-Day - '${name}' was deleted successfully`);
+  const executeLogout = () => {
+    localStorage.removeItem("user");
+    setLogoutModalVisible(false);
+    return signOut();
   };
 
   return (
-    dDayDeleteModalVisible && (
+    logoutModalVisible && (
       <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,255,255,0.3)] backdrop-blur-xs flex items-center justify-center fade p-4">
         {/* Modal Closer Layer */}
         <div
           className="absolute z-[-1] top-0 left-0 w-full h-full bg-transparent"
-          onClick={() => setDDayDeleteModalVisible(false)}
+          onClick={() => {
+            setLogoutModalVisible(false);
+          }}
         ></div>
 
-        {/* D-Day Delete Modal */}
+        {/* Block/Session Add Modal */}
         <div
           className={`z-20 w-full max-w-[370px] h-fit max-h-[95%] overflow-y-auto rounded-lg bg-white p-5 shadow-lg fade-down`}
         >
@@ -42,29 +32,22 @@ const DDayDeleteModal = ({
               color: colors?.primary,
             }}
           >
-            Delete D-Day
+            LOGOUT
           </span>
 
-          <p className="block text-center text-xl font-bold mb-2">
-            Are you sure you want to delete this D-Day?
+          <p className="block text-center text-lg font-medium text-slate-600 mb-2">
+            Are you sure you want to logout?
           </p>
-
-          <span className="block text-center text-lg font-normal">
-            Name: {userData?.dDays?.[index]?.name}
-          </span>
-          <span className="block text-center text-lg font-normal mb-2">
-            Date:{" "}
-            {moment(userData?.dDays?.[index]?.date).format("D MMMM, YYYY")}
-          </span>
-
-          <p className="block text-center text-lg italic font-medium mb-3">
-            This action cannot be undone!
+          <p className="block text-center text-sm font-semibold text-red-500 max-w-[230px] mb-4 mx-auto">
+            You will lose access to your plans until you log in next time.
           </p>
 
           <div className="flex flex-row gap-2 items-center">
             <button
               type="button"
-              onClick={() => setDDayDeleteModalVisible(false)}
+              onClick={() => {
+                setLogoutModalVisible(false);
+              }}
               className="w-[50%] text-sm font-normal block text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer bg-white border-2"
               style={{
                 color: colors?.primary,
@@ -74,14 +57,15 @@ const DDayDeleteModal = ({
               Cancel
             </button>
             <button
-              onClick={deleteDDay}
+              type="button"
+              onClick={executeLogout}
               className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer text-white border-2"
               style={{
                 backgroundColor: colors?.primary,
                 borderColor: colors?.primary,
               }}
             >
-              Yes, delete it
+              Logout <GoSignOut className="text-lg" />
             </button>
           </div>
         </div>
@@ -89,4 +73,4 @@ const DDayDeleteModal = ({
     )
   );
 };
-export default DDayDeleteModal;
+export default LogoutModal;

@@ -14,9 +14,14 @@ const page = () => {
     if (status === "loading") return;
 
     const localUser = localStorage.getItem("user");
+    const userWelcomed = JSON.parse(localStorage.getItem("flags"))?.welcomed;
 
     if (!session?.user?.uid && !localUser) {
-      router.push("/welcome");
+      if (userWelcomed) {
+        return router.push("/login");
+      } else {
+        router.push("/welcome");
+      }
     }
   }, [session, status, router]);
 

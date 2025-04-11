@@ -54,6 +54,7 @@ const BlockEditModal = ({
           },
         },
       },
+      lastUpdatedAt: new Date().toISOString(),
     };
 
     setUserData(updatedUserData);
@@ -117,7 +118,10 @@ const BlockEditModal = ({
         editingBlockIndex
       ] = session;
 
-      let updatedUserData = { ...userData };
+      let updatedUserData = {
+        ...userData,
+        lastUpdatedAt: new Date().toISOString(),
+      };
       updatedUserData.plans[targetPlanIndex] = updatedPlan;
 
       setUserData(updatedUserData);
@@ -150,6 +154,7 @@ const BlockEditModal = ({
             }
           : p
       ),
+      lastUpdatedAt: new Date().toISOString(),
     };
 
     setUserData(updatedUserData);
@@ -164,7 +169,7 @@ const BlockEditModal = ({
 
   return (
     blockEditModalVisible && (
-      <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,82,35,0.12)] backdrop-blur-xs flex items-center justify-center fade p-4">
+      <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,255,255,0.3)] backdrop-blur-xs flex items-center justify-center fade p-4">
         {/* Modal Closer Layer */}
         <div
           className="absolute z-[-1] top-0 left-0 w-full h-full bg-transparent"

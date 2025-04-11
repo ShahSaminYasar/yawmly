@@ -64,6 +64,7 @@ const BlockAddModal = () => {
           },
         },
       },
+      lastUpdatedAt: new Date().toISOString(),
     };
 
     setUserData(updatedUserData);
@@ -109,7 +110,10 @@ const BlockAddModal = () => {
       let updatedPlan = { ...userData?.plans[targetPlanIndex] };
       updatedPlan.plan.rows.push(session);
 
-      let updatedUserData = { ...userData };
+      let updatedUserData = {
+        ...userData,
+        lastUpdatedAt: new Date().toISOString(),
+      };
       updatedUserData.plans[targetPlanIndex] = updatedPlan;
 
       setUserData(updatedUserData);
@@ -120,7 +124,7 @@ const BlockAddModal = () => {
 
   if (blockAddModalVisible)
     return (
-      <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,82,35,0.12)] backdrop-blur-xs flex items-center justify-center fade p-4">
+      <div className="fixed z-50 top-0 left-0 w-full h-full bg-[rgba(255,255,255,0.3)] backdrop-blur-xs flex items-center justify-center fade p-4">
         {/* Modal Closer Layer */}
         <div
           className="absolute z-[-1] top-0 left-0 w-full h-full bg-transparent"
