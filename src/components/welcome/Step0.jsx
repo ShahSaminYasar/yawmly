@@ -64,7 +64,7 @@ const Step0 = ({ nextStep, formData, setFormData }) => {
         {/* Proceed Button */}
         <button
           type="submit"
-          className="w-full px-2 py-2 rounded-sm text-white flex flex-row items-center gap-1 text-sm font-medium justify-end cursor-pointer active:scale-[97%]"
+          className="w-full px-2 py-2 rounded-sm text-white flex flex-row items-center gap-1 text-sm font-medium justify-end cursor-pointer active:scale-[92%]"
           style={{
             background: `linear-gradient(to right, ${colors.primary}, ${colors.accent})`,
           }}

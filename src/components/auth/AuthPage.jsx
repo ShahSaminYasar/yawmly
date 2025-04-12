@@ -3,7 +3,7 @@ import GoogleLogin from "./GoogleLogin";
 
 const AuthPage = () => {
   return (
-    <div className="flex flex-col-reverse sm:flex-row gap-4 items-center justify-center w-full max-w-7xl mx-auto">
+    <div className="flex flex-col-reverse sm:flex-row gap-4 items-center justify-center w-full max-w-7xl mx-auto fade">
       <AuthForms />
 
       {/* Divider */}

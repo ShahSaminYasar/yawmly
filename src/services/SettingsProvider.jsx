@@ -56,6 +56,7 @@ const SettingsProvider = ({ children }) => {
           localUserData?.lastUpdatedAt > onlineUserData?.lastUpdatedAt
         ) {
           // If local version is the latest one, then set userData to local version
+          if (!localUserData || localUserData?.length === 0) return;
           setUserData(localUserData);
           console.log("User's data was set from LS: ", localUserData);
 
@@ -64,6 +65,11 @@ const SettingsProvider = ({ children }) => {
           updateOnlineUserData(localUserData);
         } else {
           // If online version is the latest one, then set userData to the online version
+          if (!onlineUserData || onlineUserData?.length === 0) {
+            if (localUserData) return setUserData(localUserData);
+            console.log("User's data in DB was found to be null/undefined");
+            return;
+          }
           setUserData(onlineUserData);
           console.log("User's data was set from DB: ", onlineUserData);
         }
@@ -151,9 +157,9 @@ const SettingsProvider = ({ children }) => {
           selectedPlan: 0,
           selectedDDay: 0,
           lastUpdatedAt: new Date().toISOString(),
-          password: [...Array(16)]
+          password: `google-oauth:${[...Array(16)]
             .map(() => Math.random().toString(36).charAt(2))
-            .join(""),
+            .join("")}`,
         };
 
         let newUserPushRes = await axios.post("/api/auth/new-user", newUserDoc);
@@ -178,9 +184,9 @@ const SettingsProvider = ({ children }) => {
             ...localUserData,
             name: session?.user?.name,
             email: session?.user?.email,
-            password: [...Array(16)]
+            password: `google-oauth:${[...Array(16)]
               .map(() => Math.random().toString(36).charAt(2))
-              .join(""),
+              .join("")}`,
           };
 
           let googleEmailConnect = async () => {
@@ -219,19 +225,25 @@ const SettingsProvider = ({ children }) => {
   }, [status, session]);
 
   useEffect(() => {
-    if (status === "authenticated") {
-      localStorage.setItem("user", JSON.stringify(userData));
-      updateOnlineUserData(userData);
-      console.log("Set userData to local and db");
-    }
-    if (
-      status !== "authenticated" &&
-      localStorage.getItem("user") &&
-      userData?.settings
-    ) {
-      localStorage.setItem("user", JSON.stringify(userData));
-      console.log("Local data uptated. ", userData);
-    }
+    if (!userData) return;
+
+    const timeout = setTimeout(() => {
+      if (status === "authenticated") {
+        localStorage.setItem("user", JSON.stringify(userData));
+        updateOnlineUserData(userData);
+        console.log("Set userData to local and db");
+      }
+      if (
+        status !== "authenticated" &&
+        localStorage.getItem("user") &&
+        userData?.settings
+      ) {
+        localStorage.setItem("user", JSON.stringify(userData));
+        console.log("Local data uptated. ", userData);
+      }
+    }, 800);
+
+    return () => clearTimeout(timeout);
   }, [userData]);
 
   // Functions

@@ -65,7 +65,7 @@ const DDayDeleteModal = ({
             <button
               type="button"
               onClick={() => setDDayDeleteModalVisible(false)}
-              className="w-[50%] text-sm font-normal block text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer bg-white border-2"
+              className="w-[50%] text-sm font-normal block text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer bg-white border-2"
               style={{
                 color: colors?.primary,
                 borderColor: colors?.primary,
@@ -75,7 +75,7 @@ const DDayDeleteModal = ({
             </button>
             <button
               onClick={deleteDDay}
-              className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer text-white border-2"
+              className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer text-white border-2"
               style={{
                 backgroundColor: colors?.primary,
                 borderColor: colors?.primary,

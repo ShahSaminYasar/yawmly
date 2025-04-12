@@ -68,7 +68,7 @@ const page = () => {
       </section>
 
       <button
-        className="px-3 py-3 text-white rounded-xl flex justify-center items-center gap-1 shadow-sm fixed bottom-5 right-5 text-sm cursor-pointer active:scale-[96%]"
+        className="px-3 py-3 text-white rounded-xl flex justify-center items-center gap-1 shadow-sm fixed bottom-5 right-5 text-sm cursor-pointer active:scale-[92%]"
         style={{
           background: `linear-gradient(45deg, ${colors?.primary}, ${colors?.accent})`,
         }}

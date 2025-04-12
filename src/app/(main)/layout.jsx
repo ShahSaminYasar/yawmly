@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
       <NavSidebar />
 
       {/* Main */}
-      <main className="min-h-[67vh] p-5">
+      <main className="min-h-[67vh] p-5 w-full">
         <div className="w-full max-w-7xl mx-auto">{children}</div>
       </main>
 

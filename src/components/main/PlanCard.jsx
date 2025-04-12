@@ -73,7 +73,7 @@ const PlanCard = ({
               });
               setPlanEditModalVisible(true);
             }}
-            className="w-full rounded-xl border-2 px-3 py-2 flex items-center gap-2 justify-center cursor-pointer active:scale-[96%] text-sm"
+            className="w-full rounded-xl border-2 px-3 py-2 flex items-center gap-2 justify-center cursor-pointer active:scale-[92%] text-sm"
             style={{
               background: "transparent",
               color: colors?.accent,
@@ -92,7 +92,7 @@ const PlanCard = ({
                 lastUpdatedAt: new Date().toISOString(),
               }))
             }
-            className="w-full rounded-xl border-2 px-3 py-2 flex items-center gap-2 justify-center cursor-pointer active:scale-[96%] disabled:opacity-50 text-sm"
+            className="w-full rounded-xl border-2 px-3 py-2 flex items-center gap-2 justify-center cursor-pointer active:scale-[92%] disabled:opacity-50 text-sm"
             style={{
               background: colors?.accent,
               color: "#fff",

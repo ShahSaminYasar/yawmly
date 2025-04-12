@@ -61,7 +61,7 @@ const Step1 = ({ nextStep, prevStep, formData, setFormData }) => {
           }));
           nextStep();
         }}
-        className="w-full px-2 py-2 rounded-sm text-white flex flex-row items-center gap-1 text-sm font-medium justify-end cursor-pointer active:scale-[97%] fade"
+        className="w-full px-2 py-2 rounded-sm text-white flex flex-row items-center gap-1 text-sm font-medium justify-end cursor-pointer active:scale-[92%] fade"
         style={{
           background: `linear-gradient(to right, ${colors.primary}, ${colors.accent})`,
         }}

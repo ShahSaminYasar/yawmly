@@ -237,7 +237,7 @@ const AuthForms = () => {
             {/* Register Button */}
             <button
               type="submit"
-              className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer text-white border-2"
+              className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer text-white border-2"
               style={{
                 backgroundColor: colors?.primary,
                 borderColor: colors?.primary,
@@ -304,7 +304,7 @@ const AuthForms = () => {
             {/* Register Button */}
             <button
               type="submit"
-              className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer text-white border-2"
+              className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer text-white border-2"
               style={{
                 backgroundColor: colors?.primary,
                 borderColor: colors?.primary,

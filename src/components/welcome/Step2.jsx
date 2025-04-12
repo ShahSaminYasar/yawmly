@@ -34,7 +34,7 @@ const Step2 = ({ prevStep, nextStep, formData }) => {
       {/* Proceed Button */}
       <button
         onClick={nextStep}
-        className="w-full px-2 py-2 rounded-sm text-white flex flex-row items-center gap-1 text-sm font-medium justify-center cursor-pointer active:scale-[97%] mt-3 hover:tracking-wider disabled:grayscale-[60%] disabled:opacity-60 disabled:cursor-default fade"
+        className="w-full px-2 py-2 rounded-sm text-white flex flex-row items-center gap-1 text-sm font-medium justify-center cursor-pointer active:scale-[92%] mt-3 hover:tracking-wider disabled:grayscale-[60%] disabled:opacity-60 disabled:cursor-default fade"
         style={{
           background: `linear-gradient(to right, ${colors.primary}, ${colors.accent})`,
         }}

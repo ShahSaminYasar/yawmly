@@ -89,7 +89,7 @@ const NavSidebar = () => {
         </button>
 
         <button
-          className={`text-sm font-medium cursor-pointer active:scale-[96%] flex items-center gap-2 w-full px-3 py-2 rounded-sm ${
+          className={`text-sm font-medium cursor-pointer active:scale-[92%] flex items-center gap-2 w-full px-3 py-2 rounded-sm ${
             pathname === "/" ? "shadow-sm" : "shadow-none"
           }`}
           onClick={() => visitNavLink("/")}
@@ -102,7 +102,7 @@ const NavSidebar = () => {
         </button>
 
         <button
-          className={`text-sm font-medium cursor-pointer active:scale-[96%] flex items-center gap-2 w-full px-3 py-2 rounded-sm ${
+          className={`text-sm font-medium cursor-pointer active:scale-[92%] flex items-center gap-2 w-full px-3 py-2 rounded-sm ${
             pathname === "/plans" ? "shadow-sm" : "shadow-none"
           }`}
           onClick={() => visitNavLink("/plans")}
@@ -116,7 +116,7 @@ const NavSidebar = () => {
         </button>
 
         <button
-          className={`text-sm font-medium cursor-pointer active:scale-[96%] flex items-center gap-2 w-full px-3 py-2 rounded-sm ${
+          className={`text-sm font-medium cursor-pointer active:scale-[92%] flex items-center gap-2 w-full px-3 py-2 rounded-sm ${
             pathname === "/ddays" ? "shadow-sm" : "shadow-none"
           }`}
           onClick={() => visitNavLink("/ddays")}
@@ -222,7 +222,7 @@ const NavSidebar = () => {
         <div className="w-full mt-auto">
           {/* Account & Settings */}
           <button
-            className={`text-sm font-medium cursor-pointer active:scale-[96%] flex items-center gap-2 w-full px-3 py-2 rounded-sm ${
+            className={`text-sm font-medium cursor-pointer active:scale-[92%] flex items-center gap-2 w-full px-3 py-2 rounded-sm ${
               pathname === "/settings" ? "shadow-sm" : "shadow-none"
             }`}
             onClick={() => visitNavLink("/settings")}

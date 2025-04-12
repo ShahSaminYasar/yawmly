@@ -27,7 +27,8 @@ export const authOptions = {
         const user = await usersCollection.findOne({ email });
         if (!user) throw new Error("User not found, please register");
 
-        const checkPass = bcrypt.compareSync(password, user?.password);
+        // const checkPass = bcrypt.compareSync(password, user?.password); -> May become problematic under load
+        const checkPass = await bcrypt.compare(password, user?.password);
         if (!checkPass) throw new Error("Incorrect Password");
 
         const userObj = { uid: user?._id, email };
@@ -50,6 +51,7 @@ export const authOptions = {
           .collection("users")
           .findOne({ email: user?.email });
         if (!findUserDoc) {
+          user.uid = null;
           return true;
         } else {
           user.uid = findUserDoc?.uid || findUserDoc?._id;

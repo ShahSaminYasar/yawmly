@@ -1,8 +1,10 @@
 "use client";
 import { useSettings } from "@/services/SettingsProvider";
+import { useSession } from "next-auth/react";
 
 const layout = ({ children }) => {
   const { colors } = useSettings();
+  const { status } = useSession();
 
   return (
     <main className="w-full relative">
@@ -18,6 +20,11 @@ const layout = ({ children }) => {
           borderColor: colors.accent,
         }}
       >
+        {status === "authenticated" && (
+          <span className="my-10 block text-center text-xl font-normal text-slate-600 fade-up">
+            Login Successful ✅
+          </span>
+        )}
         {children}
       </div>
     </main>

@@ -151,7 +151,7 @@ const PlanEditModal = ({
             <button
               type="button"
               onClick={() => setPlanDeleteModalVisible(true)}
-              className={`text-sm font-medium cursor-pointer active:scale-[96%] flex items-center gap-2 w-full px-3 py-2 rounded-sm bg-red-500 text-white`}
+              className={`text-sm font-medium cursor-pointer active:scale-[92%] flex items-center gap-2 w-full px-3 py-2 rounded-sm bg-red-500 text-white`}
             >
               <FaTrash className="text-sm" /> Delete Plan
             </button>
@@ -160,7 +160,7 @@ const PlanEditModal = ({
               <button
                 type="button"
                 onClick={() => setPlanEditModalVisible(false)}
-                className="w-[50%] text-sm font-normal block text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer bg-white border-2"
+                className="w-[50%] text-sm font-normal block text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer bg-white border-2"
                 style={{
                   color: colors?.primary,
                   borderColor: colors?.primary,
@@ -170,7 +170,7 @@ const PlanEditModal = ({
               </button>
               <button
                 type="submit"
-                className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer text-white border-2"
+                className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer text-white border-2"
                 style={{
                   backgroundColor: colors?.primary,
                   borderColor: colors?.primary,
@@ -212,7 +212,7 @@ const PlanEditModal = ({
               <button
                 type="button"
                 onClick={() => setPlanDeleteModalVisible(false)}
-                className="w-[50%] text-sm font-normal block text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer bg-white border-2"
+                className="w-[50%] text-sm font-normal block text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer bg-white border-2"
                 style={{
                   color: colors?.primary,
                   borderColor: colors?.primary,
@@ -222,7 +222,7 @@ const PlanEditModal = ({
               </button>
               <button
                 onClick={deletePlan}
-                className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer text-white border-2"
+                className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer text-white border-2"
                 style={{
                   backgroundColor: colors?.primary,
                   borderColor: colors?.primary,
