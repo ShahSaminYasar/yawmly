@@ -2,7 +2,8 @@ import { connectDB } from "@/lib/connectDB";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { NextResponse } from "next/server";
+import GoogleProvider from "next-auth/providers/google";
+import { ObjectId } from "mongodb";
 
 export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -34,17 +35,35 @@ export const authOptions = {
         return userObj;
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
   ],
   callbacks: {
-    async signIn(user) {
-      if (!user.user.email) return null;
+    async signIn({ user, account }) {
+      if (!user.email) return false;
+      if (account?.provider === "google") {
+        let db = await connectDB();
+        let findUserDoc = await db
+          .collection("users")
+          .findOne({ email: user?.email });
+        if (!findUserDoc) {
+          return true;
+        } else {
+          user.uid = findUserDoc?.uid || findUserDoc?._id;
+        }
+      }
       return true;
     },
 
     async jwt({ token, user }) {
+      // console.log("User in token: ", user, token);
       if (user) {
-        token.uid = user.uid;
         token.email = user.email;
+        if (user.uid) {
+          token.uid = user.uid;
+        }
       }
 
       return token;
@@ -57,6 +76,9 @@ export const authOptions = {
 
       return session;
     },
+  },
+  pages: {
+    error: "/account",
   },
 };
 

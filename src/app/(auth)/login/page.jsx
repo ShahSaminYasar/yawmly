@@ -1,4 +1,5 @@
 "use client";
+import GoogleLogin from "@/components/auth/GoogleLogin";
 import { useSettings } from "@/services/SettingsProvider";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -102,7 +103,7 @@ const page = () => {
         />
       </div>
 
-      {/* Register Button */}
+      {/* Login Button */}
       <button
         type="submit"
         className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[97%] mt-1 cursor-pointer text-white border-2"
@@ -113,6 +114,15 @@ const page = () => {
       >
         Login
       </button>
+
+      {/* Divider */}
+      <div className="flex items-center justify-center w-full max-w-[300px] gap-2 text-xs text-[#bababa]">
+        <span className="w-full rounded-sm h-[1px] bg-[#bababa]"></span>
+        <span>OR</span>
+        <span className="w-full rounded-sm h-[1px] bg-[#bababa]"></span>
+      </div>
+
+      <GoogleLogin className={`sm:max-w-full py-2`} />
 
       <Link
         href="/welcome"

@@ -41,6 +41,8 @@ const SettingsProvider = ({ children }) => {
 
     if (status === "authenticated") {
       console.log("Session found: ", session);
+
+      // If user doc (with uid) is present in the DB
       const getUserData = async () => {
         // Get the online version
         let onlineUserData = await axios.get(
@@ -67,7 +69,140 @@ const SettingsProvider = ({ children }) => {
         }
         return setGlobalLoading(false);
       };
-      getUserData();
+
+      // If no user doc is present (sign up through google)
+      const pushNewGoogleUser = async () => {
+        let newUserDoc = {
+          name: session?.user?.name || "Unnamed",
+          email: session?.user?.email,
+          settings: {
+            wakeUpTime: "05:00",
+            tags: {
+              study: {
+                bg: "#fde4be",
+                text: "#ff6302",
+              },
+              rest: {
+                bg: "#f6f6f6",
+                text: "#ff914d",
+              },
+              namaz: {
+                bg: "#e67e22",
+                text: "#ffffff",
+              },
+              snack: {
+                bg: "#2ecc71",
+                text: "#000000",
+              },
+              nap: {
+                bg: "#2980b9",
+                text: "#ffffff",
+              },
+              sleep: {
+                bg: "#f1c40f",
+                text: "#000000",
+              },
+              breakfast: {
+                bg: "#d35400",
+                text: "#ffffff",
+              },
+              lunch: {
+                bg: "#3498db",
+                text: "#ffffff",
+              },
+              dinner: {
+                bg: "#e74c3c",
+                text: "#ffffff",
+              },
+              washroom: {
+                bg: "#1abc9c",
+                text: "#000000",
+              },
+              bath: {
+                bg: "#9b59b6",
+                text: "#ffffff",
+              },
+            },
+            preferredTimeFormat: "t",
+          },
+          registeredOn: new Date(),
+          plans: [
+            {
+              title: "Default plan",
+              createdOn: new Date(),
+              plan: {
+                header: ["Time", "Session", "Remarks"],
+                rows: [
+                  {
+                    start: 300,
+                    end: 300 + 50,
+                    title: "Wake up and get ready",
+                    tag: "rest",
+                    remarks: {
+                      checked: false,
+                      note: "",
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+          dDays: [],
+          selectedPlan: 0,
+          selectedDDay: 0,
+          lastUpdatedAt: new Date().toISOString(),
+          password: [...Array(16)]
+            .map(() => Math.random().toString(36).charAt(2))
+            .join(""),
+        };
+
+        let newUserPushRes = await axios.post("/api/auth/new-user", newUserDoc);
+
+        if (!newUserPushRes?.data?.ok)
+          return toast.error("Failed to save user data");
+
+        newUserDoc.uid = newUserPushRes?.data?.uid;
+        setUserData(newUserDoc);
+        return setGlobalLoading(false);
+      };
+
+      if (session?.user?.uid) {
+        console.log("Found UID and Session - Normal Sync running...");
+        getUserData();
+      } else if (session?.user?.name && session?.user?.email) {
+        if (localUserData?.uid) {
+          console.log(
+            "Found Session and Local User Doc - Google Login running..."
+          );
+          let registerBody = {
+            ...localUserData,
+            name: session?.user?.name,
+            email: session?.user?.email,
+            password: [...Array(16)]
+              .map(() => Math.random().toString(36).charAt(2))
+              .join(""),
+          };
+
+          let googleEmailConnect = async () => {
+            console.log("Uploading new google account: ", registerBody);
+            let res = await axios.put("/api/put/users", registerBody);
+
+            if (!res?.data?.ok)
+              return toast.error("Failed to sync data, please refresh the app");
+
+            setUserData(registerBody);
+            setGlobalLoading(false);
+            return toast.success("Google account connected successfully!");
+          };
+
+          googleEmailConnect();
+        } else {
+          console.log(
+            "Found Session and no Local Doc - Google Signup running..."
+          );
+          pushNewGoogleUser();
+        }
+      }
     }
 
     if (status === "unauthenticated" && localUserData) {
@@ -87,7 +222,7 @@ const SettingsProvider = ({ children }) => {
     if (status === "authenticated") {
       localStorage.setItem("user", JSON.stringify(userData));
       updateOnlineUserData(userData);
-      console.log("Local data synced with DB");
+      console.log("Set userData to local and db");
     }
     if (
       status !== "authenticated" &&
