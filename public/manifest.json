@@ -1,0 +1,28 @@
+{
+  "name": "YAWMLY - Productivity, daily",
+  "short_name": "YAWMLY",
+  "description": "Yawmly is your all-in-one daily planner and D-Day tracker designed to keep you focused, productive, and in control of your schedule.",
+  "icons": [
+    {
+      "src": "/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/android-chrome-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#ff6302",
+  "background_color": "#ff6302",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

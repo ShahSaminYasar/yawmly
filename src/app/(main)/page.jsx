@@ -12,10 +12,8 @@ const page = () => {
 
   // Effetcs
   useEffect(() => {
-    document.title = `${
-      userData?.plans?.[userData?.selectedPlan]?.title || "Plan"
-    } — YAWMLY`;
-  }, []);
+    document.title = `Plan - YAWMLY`;
+  }, [userData]);
 
   useEffect(() => {
     if (status === "loading") return;

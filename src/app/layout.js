@@ -7,8 +7,10 @@ import LoadingScreen from "@/components/common/LoadingScreen";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata = {
-  title: "YAWMLY",
-  description: "Productivity, daily.",
+  manifest: "/manifest.json",
+  title: "YAWMLY - Productivity, daily",
+  description:
+    "Yawmly is your all-in-one daily planner and D-Day tracker designed to keep you focused, productive, and in control of your schedule.",
   icons: "/favicon.ico",
   keywords: [
     "Yawmly",
@@ -61,6 +63,10 @@ export const metadata = {
       "Yawmly is your personal daily planner and D-Day tracker designed to help you stay focused and organized.",
     images: ["/og-image.jpg"],
   },
+};
+
+export const viewport = {
+  themeColor: "#ff6302",
 };
 
 export default function RootLayout({ children }) {
