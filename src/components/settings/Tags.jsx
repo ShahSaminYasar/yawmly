@@ -45,7 +45,7 @@ const Tags = () => {
           </button>
         </div>
 
-        <div className="w-full max-w-[400px] text-sm text-slate-600">
+        <div className="w-full max-w-[400px] text-[12px] sm:text-sm text-slate-600">
           <div className="w-full grid grid-cols-5 gap-1 text-slate-900">
             <span>Name</span>
             <span className="block text-center">BG Color</span>
@@ -70,7 +70,7 @@ const Tags = () => {
         <button
           type="button"
           onClick={() => setTagAddModalVisible(true)}
-          className="w-fit text-xs font-normal text-left text-slate-100 px-2 py-[6px] rounded-sm active:scale-[92%] whitespace-nowrap mt-[5px] cursor-pointer flex flex-row gap-1 items-center"
+          className="w-fit text-xs font-normal text-left text-slate-100 px-2 py-[6px] rounded-sm active:scale-[92%] whitespace-nowrap mt-[5px] cursor-pointer flex flex-row gap-1 items-center mx-auto sm:mx-0"
           style={{
             backgroundColor: colors?.primary,
           }}

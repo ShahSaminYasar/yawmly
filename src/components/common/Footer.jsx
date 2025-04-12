@@ -11,7 +11,7 @@ const Footer = () => {
       // }}
       className="p-5 mt-auto pt-5 border-t border-t-slate-200 mx-5"
     >
-      <span className="block text-center text-sm text-slate-600">
+      <span className="block text-center text-xs sm:text-sm text-slate-600">
         Copyright 2025 &copy;{" "}
         <Link
           href={"https://shahsaminyasar.vercel.app"}

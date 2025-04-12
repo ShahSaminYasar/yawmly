@@ -28,15 +28,17 @@ const page = () => {
         ACCOUNT INFO
       </h3>
 
-      <p>
-        You are currently logged in as{" "}
-        <span className="font-semibold">{userData?.name}</span>
-        <button
-          onClick={() => setNameEditFormVisible((prev) => !prev)}
-          className="inline-block ml-2 text-[10px] font-light underline text-slate-400 cursor-pointer"
-        >
-          Edit name
-        </button>
+      <p className="flex flex-wrap items-center gap-1 whitespace-nowrap">
+        You are currently logged in as:{" "}
+        <span className="font-semibold whitespace-nowrap">
+          {userData?.name}{" "}
+          <button
+            onClick={() => setNameEditFormVisible((prev) => !prev)}
+            className="inline-block ml-1 text-[10px] font-light underline text-slate-400 cursor-pointer"
+          >
+            Edit name
+          </button>
+        </span>
       </p>
 
       {nameEditFormVisible && (
@@ -84,12 +86,7 @@ const page = () => {
         </span>
       </p>
 
-      <p
-        className="block pt-5 mt-2 border-t border-slate-200 w-full"
-        style={{
-          color: colors?.primary,
-        }}
-      >
+      <p className="block pt-5 mt-2 border-t border-slate-200 w-full font-semibold text-green-500">
         <span className="not-italic">✅</span> Data synced! Log in on any device
         to view your plans.
       </p>

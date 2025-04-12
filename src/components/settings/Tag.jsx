@@ -39,7 +39,7 @@ const Tag = ({
   return (
     <form
       onSubmit={updateTag}
-      className="w-full grid grid-cols-5 gap-1 py-2 border-b border-b-slate-100"
+      className="w-full grid grid-cols-5 gap-1 py-2 border-b border-b-slate-100 text-xs sm:text-sm"
     >
       <span>{tagName}</span>
       <input
@@ -72,7 +72,7 @@ const Tag = ({
       {tagModified && (
         <button
           type="submit"
-          className="px-1 py-1 text-white text-sm cursor-pointer fade rounded-sm"
+          className="p-[4px] sm:px-1 sm:py-1 text-white text-xs sm:text-sm cursor-pointer fade rounded-sm"
           style={{
             backgroundColor: colors?.primary,
           }}

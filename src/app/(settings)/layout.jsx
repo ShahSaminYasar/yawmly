@@ -34,19 +34,19 @@ const layout = ({ children }) => {
         backgroundColor: "#ffffff",
         minHeight: "100vh",
       }}
-      className="p-5"
+      className="p-2 sm:p-5"
     >
       <header
-        className="px-3 py-3 grid grid-cols-3 justify-between items-center gap-5 w-[100%] max-w-7xl rounded-lg shadow-lg mx-auto"
+        className="px-3 py-3 grid grid-cols-3 justify-between items-center gap-1 sm:gap-5 w-[100%] max-w-7xl rounded-lg shadow-lg mx-auto"
         style={{
           backgroundColor: colors?.shade,
         }}
       >
         <Link
           href={"/"}
-          className="text-[#1b1b1b] text-sm font-normal w-fit px-3 py-3 rounded-xl flex items-center gap-2"
+          className="text-[#1b1b1b] text-xs sm:text-sm font-normal w-fit flex items-center gap-2"
         >
-          <GoHome className="text-lg" />
+          <GoHome className="text-sm sm:text-lg" />
           Home
         </Link>
 
@@ -61,16 +61,16 @@ const layout = ({ children }) => {
 
         <div>
           {status === "authenticated" ? (
-            <div className="flex flex-col items-end gap-0 text-sm font-normal text-slate-500">
-              <span>Logged in ✅</span>
-              <span className="text-xs font-medium">
+            <div className="flex flex-col items-end gap-0 text-[11px] text-right sm:text-sm font-normal text-slate-500 w-full overflow-x-hidden text-ellipsis">
+              <span className="text-green-500 font-medium">Synced ✅</span>
+              <span className="text-[10px] hidden sm:block text-right w-full overflow-hidden sm:text-xs font-medium text-ellipsis">
                 {session?.user?.email}
               </span>
             </div>
           ) : (
             <Link
               href={"/account"}
-              className="text-sm font-medium rounded-sm px-2 py-3 flex items-center gap-1"
+              className="text-xs sm:text-sm font-medium rounded-md w-fit ml-auto px-1 sm:px-3 py-1 sm:py-2 flex items-center gap-1"
               style={{
                 backgroundColor: colors?.primary,
                 color: "#ffffff",
@@ -93,7 +93,7 @@ const layout = ({ children }) => {
         }}
       >
         <nav
-          className="w-[95%] max-w-[400px] sm:max-w-[330px] px-3 py-2 flex justify-around items-center gap-5 rounded-lg shadow-sm text-sm font-medium text-[#1b1b1b] mx-auto -translate-y-4"
+          className="w-[95%] max-w-[400px] sm:max-w-[330px] px-3 py-2 flex justify-around items-center gap-5 rounded-lg shadow-sm text-sm font-medium text-[#1b1b1b] mx-auto -translate-y-3 sm:-translate-y-4"
           style={{
             backgroundColor: colors?.shade,
           }}
