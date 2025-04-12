@@ -2,6 +2,7 @@ import { useSettings } from "@/services/SettingsProvider";
 import Tag from "./Tag";
 import { FaCirclePlus } from "react-icons/fa6";
 import { useState } from "react";
+import TagAddModal from "../main/TagAddModal";
 
 const Tags = () => {
   const { userData, setUserData, colors } = useSettings();

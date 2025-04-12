@@ -17,9 +17,10 @@ const LoadingScreen = () => {
         color: colors?.primary,
       }}
     >
-      <span className="text-3xl font-semibold block text-center">
+      {/* <span className="text-3xl font-semibold block text-center">
         Loading...
-      </span>
+      </span> */}
+      <div className="loader-1"></div>
     </div>
   );
 };

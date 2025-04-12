@@ -9,7 +9,7 @@ import { Analytics } from "@vercel/analytics/next";
 export const metadata = {
   title: "YAWMLY",
   description: "Productivity, daily.",
-  icons: "/favicon.png",
+  icons: "/favicon.ico",
   keywords: [
     "Yawmly",
     "day planner",
