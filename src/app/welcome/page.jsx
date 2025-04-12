@@ -71,6 +71,11 @@ const page = () => {
     },
   });
 
+  // Effetcs
+  useEffect(() => {
+    document.title = `Welcome — YAWMLY`;
+  }, []);
+
   // Functions
   const nextStep = async () => {
     if (step < 2) {

@@ -16,6 +16,8 @@ const page = () => {
 
   //   Effetcs
   useEffect(() => {
+    document.title = `Login — YAWMLY`;
+
     if (status === "authenticated") {
       return redirect("/");
     }

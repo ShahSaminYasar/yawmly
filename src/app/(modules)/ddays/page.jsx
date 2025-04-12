@@ -24,6 +24,11 @@ const page = () => {
   const [dDayDeleteModalVisible, setDDayDeleteModalVisible] = useState(false);
   const [deletingDDayIndex, setDeletingDDayIndex] = useState(0);
 
+  // Effects
+  useEffect(() => {
+    document.title = `D-Days — YAWMLY`;
+  }, []);
+
   //   Functions
   const editDDay = (setAsActive = false) => {
     let { index, name, date, bgColor, textColor } = editingDDayData;

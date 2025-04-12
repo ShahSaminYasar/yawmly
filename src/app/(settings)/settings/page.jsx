@@ -3,9 +3,15 @@ import Tags from "@/components/settings/Tags";
 import TimeFormat from "@/components/settings/TimeFormat";
 import WakeUpTime from "@/components/settings/WakeUpTime";
 import { useSettings } from "@/services/SettingsProvider";
+import { useEffect } from "react";
 
 const page = () => {
   const { colors } = useSettings();
+
+  // Effects
+  useEffect(() => {
+    document.title = `Settings — YAWMLY`;
+  }, []);
 
   return (
     <>

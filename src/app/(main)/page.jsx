@@ -10,6 +10,13 @@ const page = () => {
   const router = useRouter();
   const { userData } = useSettings();
 
+  // Effetcs
+  useEffect(() => {
+    document.title = `${
+      userData?.plans?.[userData?.selectedPlan]?.title || "Plan"
+    } — YAWMLY`;
+  }, []);
+
   useEffect(() => {
     if (status === "loading") return;
 

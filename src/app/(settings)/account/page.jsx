@@ -4,7 +4,7 @@ import { useSettings } from "@/services/SettingsProvider";
 import moment from "moment";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaInstagram } from "react-icons/fa6";
 import { GoGlobe, GoMail, GoSignOut } from "react-icons/go";
@@ -16,6 +16,11 @@ const page = () => {
 
   // States
   const [nameEditFormVisible, setNameEditFormVisible] = useState(false);
+
+  // Effects
+  useEffect(() => {
+    document.title = `Account — YAWMLY`;
+  }, []);
 
   return status === "authenticated" ? (
     <section className="w-full flex flex-col gap-3 items-start text-slate-700 text-sm font-medium py-6 fade">

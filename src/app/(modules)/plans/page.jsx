@@ -21,6 +21,10 @@ const page = () => {
 
   // Effects
   useEffect(() => {
+    document.title = `Plans — YAWMLY`;
+  }, []);
+
+  useEffect(() => {
     setPlans(userData?.plans || []);
   }, [userData]);
 
