@@ -19,8 +19,10 @@ const ChooseDataSetModal = () => {
       let { uid, ...localData } = conflictingDataSets?.local;
 
       setUserData({
-        uid: conflictingDataSets?.online?.uid,
         ...localData,
+        uid: conflictingDataSets?.online?.uid,
+        email: conflictingDataSets?.online?.email,
+        password: conflictingDataSets?.online?.password,
       });
     } else if (version === "online") {
       setUserData({

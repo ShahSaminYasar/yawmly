@@ -13,6 +13,8 @@ const AuthForms = () => {
   const [loginMode, setLoginMode] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [registering, setRegistering] = useState(false);
+  const [loggingIn, setLoggingIn] = useState(false);
 
   //   Effects
   useEffect(() => {
@@ -32,13 +34,16 @@ const AuthForms = () => {
   // Login Function
   const login = async (e) => {
     e.preventDefault();
+    setLoggingIn(true);
 
     let password = e.target?.password?.value;
 
-    if (password?.length < 8)
+    if (password?.length < 8) {
+      setLoggingIn(false);
       return toast(
         "Please enter the valid password which contains at least 8 characters"
       );
+    }
 
     try {
       let executeSignIn = await signIn("credentials", {
@@ -48,14 +53,17 @@ const AuthForms = () => {
       });
 
       if (executeSignIn?.ok) {
+        setLoggingIn(false);
         return toast.success("Login successful");
       } else {
+        setLoggingIn(false);
         return toast.error(
           executeSignIn?.error ||
             "Registration failed with code " + `${executeSignIn?.status}`
         );
       }
     } catch (error) {
+      setLoggingIn(false);
       return toast.error(error?.message || "Sign in failed");
     }
   };
@@ -63,14 +71,20 @@ const AuthForms = () => {
   // Register Function
   const register = async (e) => {
     e.preventDefault();
+    setRegistering(true);
 
     let password = e.target?.password?.value;
     let rePassword = e.target?.re_password?.value;
 
-    if (password?.length < 8)
+    if (password?.length < 8) {
+      setRegistering(false);
       return toast("Password must be 8 characters long");
+    }
 
-    if (password !== rePassword) return toast("Passwords do not match");
+    if (password !== rePassword) {
+      setRegistering(false);
+      return toast("Passwords do not match");
+    }
 
     let hashedPassword = bcrypt.hashSync(password, 12);
 
@@ -83,8 +97,10 @@ const AuthForms = () => {
 
     const res = await axios.post("/api/auth/register", data);
 
-    if (!res?.data?.ok)
+    if (!res?.data?.ok) {
+      setRegistering(false);
       return toast.error(res?.data?.message || "Operation failed");
+    }
 
     try {
       let latestUserData = { ...userData, ...data };
@@ -100,8 +116,10 @@ const AuthForms = () => {
 
         if (executeSignIn?.ok) {
           // setUserData(latestUserData);
+          setRegistering(false);
           return toast.success("Registration successful");
         } else {
+          setRegistering(false);
           return toast.error(
             executeSignIn?.error ||
               "Registration failed with code " + `${executeSignIn?.status}`
@@ -109,6 +127,7 @@ const AuthForms = () => {
         }
       }, 120);
     } catch (error) {
+      setRegistering(false);
       return toast.error(error?.message || "Sign in failed");
     }
   };
@@ -237,13 +256,21 @@ const AuthForms = () => {
             {/* Register Button */}
             <button
               type="submit"
-              className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer text-white border-2"
+              className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer text-white border-2 disabled:opacity-50 disabled:grayscale-[60%]"
               style={{
                 backgroundColor: colors?.primary,
                 borderColor: colors?.primary,
               }}
+              disabled={registering}
             >
-              Register
+              {registering ? (
+                <div className="flex flex-row justify-center items-center gap-2">
+                  <span className="loading loading-spinner loading-sm"></span>
+                  REGISTERING...
+                </div>
+              ) : (
+                "REGISTER"
+              )}
             </button>
           </form>
         )}
@@ -304,13 +331,21 @@ const AuthForms = () => {
             {/* Register Button */}
             <button
               type="submit"
-              className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer text-white border-2"
+              className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer text-white border-2 disabled:opacity-50 disabled:grayscale-[60%]"
               style={{
                 backgroundColor: colors?.primary,
                 borderColor: colors?.primary,
               }}
+              disabled={loggingIn}
             >
-              Login
+              {loggingIn ? (
+                <div className="flex flex-row justify-center items-center gap-2">
+                  <span className="loading loading-spinner loading-sm"></span>
+                  LOGGING IN...
+                </div>
+              ) : (
+                "LOGIN"
+              )}
             </button>
           </form>
         )}

@@ -128,10 +128,10 @@ const page = () => {
         {loggingIn ? (
           <div className="flex flex-row justify-center items-center gap-2">
             <span className="loading loading-spinner loading-sm"></span>
-            SIGNING IN
+            LOGGING IN
           </div>
         ) : (
-          "SIGN IN"
+          "LOGIN"
         )}
       </button>
 
