@@ -80,7 +80,7 @@ export default function RootLayout({ children }) {
             <Toaster />
             <ChooseDataSetModal />
             <LoadingScreen />
-            {/* <Analytics /> */}
+            <Analytics />
           </body>
         </SettingsProvider>
       </AuthSessionProvider>
