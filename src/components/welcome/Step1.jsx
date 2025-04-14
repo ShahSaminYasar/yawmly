@@ -2,6 +2,7 @@ import { useSettings } from "@/services/SettingsProvider";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaArrowRight, FaChevronLeft } from "react-icons/fa6";
+import { GoClock } from "react-icons/go";
 
 const Step1 = ({ nextStep, prevStep, formData, setFormData }) => {
   const { colors } = useSettings();
@@ -32,20 +33,24 @@ const Step1 = ({ nextStep, prevStep, formData, setFormData }) => {
       </p>
 
       {/* Wake-up-time Input */}
-      <input
-        type="time"
-        name="wake_up_time"
-        onChange={(e) => {
-          console.log("setting wutime: ", e.target.value);
-          setWakeUpTime(e.target.value);
-        }}
-        value={wakeUpTime}
-        className="input w-full fade"
-        style={{
-          outlineColor: colors.accent,
-          borderColor: colors.accent,
-        }}
-      />
+      <div className="w-full relative">
+        <input
+          type="time"
+          name="wake_up_time"
+          onChange={(e) => {
+            // console.log("setting wutime: ", e.target.value);
+            setWakeUpTime(e.target.value);
+          }}
+          value={wakeUpTime}
+          className="input w-full fade"
+          style={{
+            outlineColor: colors.accent,
+            borderColor: colors.accent,
+          }}
+        />
+
+        <GoClock className="text-xs text-slate-300 absolute top-1/2 -translate-y-1/2 right-[15px] pointer-events-none" />
+      </div>
 
       {/* Proceed Button */}
       <button

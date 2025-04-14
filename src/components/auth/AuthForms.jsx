@@ -117,7 +117,7 @@ const AuthForms = () => {
     <>
       <div className="w-full max-w-[320px] flex flex-col gap-3 items-center text-sm">
         {/* Auth Forms Nav - Buttons */}
-        <div className="w-full p-3 rounded-lg bg-white flex items-center gap-3 text-sm font-medium">
+        <div className="w-full p-3 rounded-lg bg-white flex items-center gap-3 text-sm font-medium border border-slate-200">
           {/* Login Button */}
           <button
             onClick={() => setLoginMode(true)}

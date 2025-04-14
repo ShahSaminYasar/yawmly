@@ -85,7 +85,7 @@ const page = () => {
         setUpdatingUserData(true);
         let userData = {
           ...formData,
-          registeredOn: new Date(),
+          registeredAt: new Date(),
           plans: [
             {
               title: "Default plan",

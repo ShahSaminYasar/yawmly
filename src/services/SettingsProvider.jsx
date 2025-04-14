@@ -22,6 +22,9 @@ const SettingsProvider = ({ children }) => {
   const [tagAddModalVisible, setTagAddModalVisible] = useState(false);
   const [navSidebarOpen, setNavSidebarOpen] = useState(false);
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
+  const [conflictingDataSets, setConflictingDataSets] = useState({});
+  const [chooseDataSetModalVisible, setChooseDataSetModalVisible] =
+    useState(false);
 
   // Refs
   const navSidebarTL = useRef(gsap.timeline({ paused: true }));
@@ -40,7 +43,7 @@ const SettingsProvider = ({ children }) => {
     let localUserData = JSON.parse(localStorage.getItem("user"));
 
     if (status === "authenticated") {
-      console.log("Session found: ", session);
+      // console.log("Session found: ", session);
 
       // If user doc (with uid) is present in the DB
       const getUserData = async () => {
@@ -50,18 +53,33 @@ const SettingsProvider = ({ children }) => {
         );
         onlineUserData = onlineUserData?.data?.data?.[0];
 
+        // Local data is brand new but was modified by the user and online data was registered before
+        if (
+          localUserData &&
+          !localUserData?.email &&
+          onlineUserData?.email &&
+          localUserData?.lastUpdatedAt > localUserData?.registeredAt
+        ) {
+          console.log("Found conflicting data...");
+          setConflictingDataSets({
+            local: localUserData,
+            online: onlineUserData,
+          });
+          return setChooseDataSetModalVisible(true);
+        }
+
         // Compare local and online versions
         if (
           localUserData &&
           localUserData?.lastUpdatedAt > onlineUserData?.lastUpdatedAt
         ) {
           // If local version is the latest one, then set userData to local version
-          if (!localUserData || localUserData?.length === 0) return;
+          if (!localUserData || localUserData?.plans?.length === 0) return;
           setUserData(localUserData);
           console.log("User's data was set from LS: ", localUserData);
 
           // Replace the online version with the local one
-          console.log("Uploading user data: ", localUserData);
+          // console.log("Uploading user data: ", localUserData);
           updateOnlineUserData(localUserData);
         } else {
           // If online version is the latest one, then set userData to the online version
@@ -131,7 +149,7 @@ const SettingsProvider = ({ children }) => {
             },
             preferredTimeFormat: "t",
           },
-          registeredOn: new Date(),
+          registeredAt: new Date(),
           plans: [
             {
               title: "Default plan",
@@ -241,7 +259,11 @@ const SettingsProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(userData));
         console.log("Local data uptated. ", userData);
       }
-    }, 800);
+
+      if (globalLoading) {
+        setGlobalLoading(false);
+      }
+    }, 500);
 
     return () => clearTimeout(timeout);
   }, [userData]);
@@ -280,6 +302,10 @@ const SettingsProvider = ({ children }) => {
     setNavSidebarOpen,
     logoutModalVisible,
     setLogoutModalVisible,
+    chooseDataSetModalVisible,
+    setChooseDataSetModalVisible,
+    conflictingDataSets,
+    setConflictingDataSets,
   };
 
   return (

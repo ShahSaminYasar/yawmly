@@ -77,7 +77,7 @@ export const authOptions = {
       console.log("In Session callback...");
       const { uid, email } = token;
       if (!uid) {
-        console.log("Trying to get the uid from session callback...");
+        // console.log("Trying to get the uid in session callback...");
         let db = await connectDB();
         let doc = await db.collection("users").findOne({ email });
         if (doc && doc.uid) {

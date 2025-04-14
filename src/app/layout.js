@@ -5,6 +5,7 @@ import SettingsProvider from "@/services/SettingsProvider";
 import { Toaster } from "react-hot-toast";
 import LoadingScreen from "@/components/common/LoadingScreen";
 import { Analytics } from "@vercel/analytics/next";
+import ChooseDataSetModal from "@/components/auth/ChooseDataSetModal";
 
 export const metadata = {
   manifest: "/manifest.json",
@@ -77,8 +78,9 @@ export default function RootLayout({ children }) {
           <body className={`${quickSand.className} antialiased`}>
             {children}
             <Toaster />
+            <ChooseDataSetModal />
             <LoadingScreen />
-            <Analytics />
+            <Analytics /> TODO
           </body>
         </SettingsProvider>
       </AuthSessionProvider>

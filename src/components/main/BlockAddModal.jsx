@@ -247,6 +247,7 @@ const BlockAddModal = () => {
               />
             </div>
 
+            {/* Action buttons */}
             <div className="flex flex-row gap-2 items-center">
               <button
                 type="button"

@@ -101,7 +101,7 @@ const page = () => {
       </span>
       <span className="text-slate-500 text-xs font-normal">
         Account created on:{" "}
-        {moment(userData?.registeredOn).format("D MMMM YYYY [at] hh:mma")}
+        {moment(userData?.registeredAt).format("D MMMM YYYY [at] hh:mma")}
       </span>
 
       <div className="w-full my-2 py-4 border-y border-y-slate-300 text-xs text-slate-600">
