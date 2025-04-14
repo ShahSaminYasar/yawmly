@@ -501,7 +501,7 @@ const page = () => {
         </div>
       </section>
 
-      <footer className="text-center py-10 mx-3 border-t border-t-slate-200 mt-5 w-full text-xs sm:text-sm">
+      <footer className="text-center py-10 mx-0 border-t border-t-slate-200 mt-5 w-full text-xs sm:text-sm">
         Copyright 2025 &copy;{" "}
         <Link href={"https://shahsaminyasar.vercel.app"} target="_blank">
           SHAH SAMIN YASAR
