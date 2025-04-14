@@ -48,7 +48,7 @@ const page = () => {
 
         {/* Backstory */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-4">✍ Backstory</h2>
+          <h2 className="text-3xl font-bold mb-4 text-left">✍ Backstory</h2>
           <p>
             <strong>Yawmly</strong> began from a personal need — I wanted a
             clean, distraction-free way to plan my days, track productivity, and
@@ -95,7 +95,7 @@ const page = () => {
 
         {/* Initial Plan */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-4">💡 Initial Plan</h2>
+          <h2 className="text-3xl font-bold mb-4 text-left">💡 Initial Plan</h2>
           <p>
             From the beginning, I wanted Yawmly to be a PWA (Progressive Web
             App) — fast, offline-ready, and flexible. The core idea was to let
@@ -114,7 +114,7 @@ const page = () => {
 
         {/* Naming */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-4">🍃 Naming</h2>
+          <h2 className="text-3xl font-bold mb-4 text-left">🍃 Naming</h2>
           <p>
             “Yawm” means “day” in Arabic. Combined with the suffix “-ly” (as in
             “daily”), the name “Yawmly” was born.
@@ -125,7 +125,7 @@ const page = () => {
 
         {/* Pages */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-4">📄 Pages</h2>
+          <h2 className="text-3xl font-bold mb-4 text-left">📄 Pages</h2>
           <ul className="list-disc ml-6">
             <li className="mt-3">
               <strong>Welcome</strong>: A welcoming place where new users are
@@ -165,7 +165,7 @@ const page = () => {
 
         {/* Features */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-4">✨ Features</h2>
+          <h2 className="text-3xl font-bold mb-4 text-left">✨ Features</h2>
           <ul className="list-disc ml-6">
             <li className="mt-4">
               <strong>Plans</strong>: Users can create and manage multiple
@@ -249,7 +249,9 @@ const page = () => {
 
         {/* Authentication Flow */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-4">🔐 Authentication Flow</h2>
+          <h2 className="text-3xl font-bold mb-4 text-left">
+            🔐 Authentication Flow
+          </h2>
           <p>
             This part of the journey was the most tricky — especially trying to
             make sure that users could use the app anonymously, but still retain
@@ -364,7 +366,9 @@ const page = () => {
 
         {/* Data Sync Algorithm */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-4">💾 Data Sync Algorithm</h2>
+          <h2 className="text-3xl font-bold mb-4 text-left">
+            💾 Data Sync Algorithm
+          </h2>
           <p>
             The entire user data is one solid object. Everything - plans,
             d-days, settings, account info etc. are in this one object - to keep
@@ -392,7 +396,7 @@ const page = () => {
 
         {/* Challenges & Bugs Faced */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-4">
+          <h2 className="text-3xl font-bold mb-4 text-left">
             🐞 Challenges & Bugs Faced
           </h2>
           <p>
@@ -419,7 +423,7 @@ const page = () => {
 
         {/* Optimization & Performance */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-4">
+          <h2 className="text-3xl font-bold mb-4 text-left">
             🚀 Optimization & Performance
           </h2>
           <p>
@@ -449,7 +453,7 @@ const page = () => {
 
         {/* Lessons Learned/Reflections */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-4">
+          <h2 className="text-3xl font-bold mb-4 text-left">
             🧠 Lessons Learned / Reflections
           </h2>
           <p>
@@ -478,7 +482,7 @@ const page = () => {
 
         {/* Final Words */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold mb-4">Final Words ✅</h2>
+          <h2 className="text-3xl font-bold mb-4 text-left">Final Words ✅</h2>
           <p>
             Yawmly started as a quick personal tool, but ended up becoming
             something I genuinely enjoy using and am proud of building. This
