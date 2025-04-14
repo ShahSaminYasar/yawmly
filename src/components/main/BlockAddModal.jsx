@@ -36,9 +36,13 @@ const BlockAddModal = () => {
 
     planRows = planRows?.sort((a, b) => b.start - a.start);
 
-    if (!planRows || planRows?.length === 0) return;
-
-    setDefaultStartTime(minutesToTime(planRows?.[0]?.end, true) || "");
+    if (!planRows || planRows?.length === 0) {
+      // console.log("Setting st to default wut");
+      return setDefaultStartTime(userData?.settings?.wakeUpTime || "");
+    } else {
+      // console.log("setting st to prev et");
+      return setDefaultStartTime(minutesToTime(planRows?.[0]?.end, true) || "");
+    }
   }, [userData]);
 
   useEffect(() => {
