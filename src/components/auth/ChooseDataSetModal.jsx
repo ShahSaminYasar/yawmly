@@ -53,12 +53,13 @@ const ChooseDataSetModal = () => {
 
           <div className="flex flex-col gap-2 items-center text-xs font-medium">
             <p>
-              We found an existing data on your account. You also have data
-              saved locally on this device. To continue, please choose which
-              version you want to keep.
+              We found existing data on your account. You also have data saved
+              locally on this device. To continue, please choose which version
+              of data you want to keep.
             </p>
             <p className="text-red-500">
-              Note: The version you don't choose will be permanently deleted.
+              Note: The dataset that you don't choose will be permanently
+              deleted.
             </p>
           </div>
 

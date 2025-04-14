@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaInstagram } from "react-icons/fa6";
-import { GoGlobe, GoMail, GoSignOut } from "react-icons/go";
+import { GoFile, GoGlobe, GoMail, GoSignOut } from "react-icons/go";
 
 const page = () => {
   const { userData, setLogoutModalVisible, colors, setUserData } =
@@ -91,10 +91,18 @@ const page = () => {
         </span>
       </p>
 
-      <p className="block pt-5 mt-2 border-t border-slate-200 w-full font-semibold text-green-500">
-        <span className="not-italic">✅</span> Data synced! Log in on any device
-        to view your plans.
-      </p>
+      {navigator.onLine ? (
+        <p className="block pt-5 mt-2 border-t border-slate-200 w-full font-semibold text-green-500">
+          <span className="not-italic">✅</span> Data synced! Log in on any
+          device to view your plans.
+        </p>
+      ) : (
+        <p className="block pt-5 mt-2 border-t border-slate-200 w-full font-semibold text-yellow-500">
+          <span className="not-italic">☁</span> Offline mode active. Your
+          changes will be synced automatically when an internet connection is
+          detected.
+        </p>
+      )}
 
       <span className="text-slate-500 text-xs font-normal -mb-2">
         {moment().format("hh:mma, D MMMM YYYY")}
@@ -105,6 +113,14 @@ const page = () => {
       </span>
 
       <div className="w-full my-2 py-4 border-y border-y-slate-300 text-xs text-slate-600">
+        <p className="text-sm mt-2">Want to know the story behind Yawmly?</p>
+        <Link
+          href={"/devlog"}
+          className="flex w-fit rounded-xl px-3 py-2 shadow-sm bg-slate-100 text-slate-500 border border-slate-500 font-medium items-center gap-1 mt-2 mb-4"
+        >
+          <GoFile className="text-sm" /> Read the Devlog
+        </Link>
+
         <p className="text-sm">
           👋 If you have any questions, feedback, or encounter any bugs in the
           app, feel free to reach out through any of the following:{" "}

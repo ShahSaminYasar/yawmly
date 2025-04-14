@@ -5,7 +5,13 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { GoGear, GoHome, GoPerson, GoSignIn } from "react-icons/go";
+import {
+  GoCloudOffline,
+  GoGear,
+  GoHome,
+  GoPerson,
+  GoSignIn,
+} from "react-icons/go";
 
 const layout = ({ children }) => {
   const { colors } = useSettings();
@@ -37,7 +43,7 @@ const layout = ({ children }) => {
       className="p-2 sm:p-5"
     >
       <header
-        className="px-3 py-3 grid grid-cols-3 justify-between items-center gap-1 sm:gap-5 w-[100%] max-w-7xl rounded-lg shadow-lg mx-auto"
+        className="px-3 sm:px-5 py-3 grid grid-cols-3 justify-between items-center gap-1 sm:gap-5 w-[100%] max-w-7xl rounded-lg shadow-lg mx-auto"
         style={{
           backgroundColor: colors?.shade,
         }}
@@ -56,17 +62,24 @@ const layout = ({ children }) => {
             color: colors?.accent,
           }}
         >
-          YAWMLY
+          <Link href={"/"}>Yawmly</Link>
         </h1>
 
         <div>
           {status === "authenticated" ? (
-            <div className="flex flex-col items-end gap-0 text-[11px] text-right sm:text-sm font-normal text-slate-500 w-full overflow-x-hidden text-ellipsis">
-              <span className="text-green-500 font-medium">Synced ✅</span>
-              <span className="text-[10px] hidden sm:block text-right w-full overflow-hidden sm:text-xs font-medium text-ellipsis">
-                {session?.user?.email}
+            navigator?.onLine ? (
+              <div className="flex flex-col items-end gap-0 text-[11px] text-right sm:text-sm font-normal text-slate-500 w-full overflow-x-hidden text-ellipsis">
+                <span className="text-green-500 font-medium">Synced ✅</span>
+                <span className="text-[10px] hidden sm:block text-right w-full overflow-hidden sm:text-xs font-medium text-ellipsis">
+                  {session?.user?.email}
+                </span>
+              </div>
+            ) : (
+              <span className="flex items-center gap-1 text-xs sm:text-sm text-slate-600 w-fit ml-auto">
+                Offline
+                <GoCloudOffline />
               </span>
-            </div>
+            )
           ) : (
             <Link
               href={"/account"}
