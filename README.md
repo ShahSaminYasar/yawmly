@@ -15,7 +15,7 @@ Development started: 8 April, 2025
 
 Stable version ready: 13 April, 2025
 
-V1.0.0 releaseded on: 14 April, 2025
+V1.0.0 released on: 14 April, 2025
 
 ---
 
