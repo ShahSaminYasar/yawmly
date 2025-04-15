@@ -6,6 +6,7 @@ import { FaPlus } from "react-icons/fa6";
 import BlockAddModal from "./BlockAddModal";
 import SessionBlock from "./SessionBlock";
 import BlockEditModal from "./BlockEditModal";
+import moment from "moment";
 
 const DayPlan = ({ plan, planId }) => {
   const { colors, userData, setBlockAddModalVisible } = useSettings();
@@ -32,14 +33,20 @@ const DayPlan = ({ plan, planId }) => {
 
   return (
     <section>
-      <h3
-        className={`${outfit?.className} block text-center text-xl font-bold capitalize mb-3`}
-        style={{
-          color: colors?.accent,
-        }}
-      >
-        {plan?.title}
-      </h3>
+      <div className="flex flex-col-reverse items-center gap-0 mb-3">
+        <h3
+          className={`${outfit?.className} block text-center text-xl font-bold capitalize`}
+          style={{
+            color: colors?.accent,
+          }}
+        >
+          {plan?.title}
+        </h3>
+
+        <span className="text-xs text-slate-400 font-normal block text-center pb-2 -mt-3 mb-1 relative after:content-[''] after:block after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-[230px] after:h-[1px] after:bg-slate-100">
+          {moment().format("DD MMMM, YYYY")}
+        </span>
+      </div>
 
       {/* Plan Table */}
       <table

@@ -6,13 +6,16 @@
 
 ### 📌 Current Version
 
-V1.0.0
-Version release date: 14 April, 2025
+V1.0.1
+Version release date: 16 April, 2025
 
 ### 📅 Dates Noted
 
 Development started: 8 April, 2025
+
 Stable version ready: 13 April, 2025
+
+V1.0.0 releaseded on: 14 April, 2025
 
 ---
 

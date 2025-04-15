@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa6";
 import TagAddModal from "./TagAddModal";
 import { minutesToTime } from "@/utils/minutesToTime";
+import { GoClock } from "react-icons/go";
 
 const BlockAddModal = () => {
   const {
@@ -160,14 +161,17 @@ const BlockAddModal = () => {
               <span className="text-sm font-normal block text-left text-slate-600 mb-1">
                 Start Time
               </span>
-              <input
-                type="time"
-                name="start_time"
-                required
-                className="input w-full"
-                style={inputStyle}
-                defaultValue={defaultStartTime}
-              />
+              <div className="w-full relative">
+                <input
+                  type="time"
+                  name="start_time"
+                  required
+                  className="input w-full"
+                  style={inputStyle}
+                  defaultValue={defaultStartTime}
+                />
+                <GoClock className="text-xs text-slate-300 absolute top-1/2 -translate-y-1/2 right-[15px] pointer-events-none" />
+              </div>
             </div>
 
             {/* End Time Input */}
@@ -175,13 +179,16 @@ const BlockAddModal = () => {
               <span className="text-sm font-normal block text-left text-slate-600 mb-1">
                 End Time
               </span>
-              <input
-                type="time"
-                name="end_time"
-                required
-                className="input w-full"
-                style={inputStyle}
-              />
+              <div className="w-full relative">
+                <input
+                  type="time"
+                  name="end_time"
+                  required
+                  className="input w-full"
+                  style={inputStyle}
+                />
+                <GoClock className="text-xs text-slate-300 absolute top-1/2 -translate-y-1/2 right-[15px] pointer-events-none" />
+              </div>
             </div>
 
             {/* Tag Selector */}

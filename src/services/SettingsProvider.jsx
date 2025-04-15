@@ -106,45 +106,41 @@ const SettingsProvider = ({ children }) => {
                 bg: "#fde4be",
                 text: "#ff6302",
               },
-              rest: {
-                bg: "#f6f6f6",
-                text: "#ff914d",
+              coaching: {
+                bg: "#e0f3ff",
+                text: "#006eff",
               },
-              namaz: {
-                bg: "#e67e22",
-                text: "#ffffff",
+              college: {
+                bg: "#eae0ff",
+                text: "#d400ff",
+              },
+              rest: {
+                bg: "#fdffdb",
+                text: "#ffa200",
+              },
+              prayer: {
+                bg: "#c2ffe2",
+                text: "#00b377",
               },
               snack: {
-                bg: "#2ecc71",
-                text: "#000000",
+                bg: "#f8e0ff",
+                text: "#9900ff",
               },
               nap: {
-                bg: "#2980b9",
-                text: "#ffffff",
+                bg: "#3f9fde",
+                text: "#ebfcff",
               },
               sleep: {
-                bg: "#f1c40f",
-                text: "#000000",
+                bg: "#334f8e",
+                text: "#f5f9ff",
               },
-              breakfast: {
-                bg: "#d35400",
-                text: "#ffffff",
-              },
-              lunch: {
-                bg: "#3498db",
-                text: "#ffffff",
-              },
-              dinner: {
-                bg: "#e74c3c",
-                text: "#ffffff",
+              meal: {
+                bg: "#ffe0f7",
+                text: "#ff42a7",
               },
               washroom: {
-                bg: "#1abc9c",
-                text: "#000000",
-              },
-              bath: {
-                bg: "#9b59b6",
-                text: "#ffffff",
+                bg: "#c2ffed",
+                text: "#00755e",
               },
             },
             preferredTimeFormat: "t",
