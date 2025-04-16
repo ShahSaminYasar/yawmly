@@ -122,7 +122,7 @@ const SettingsProvider = ({ children }) => {
                 bg: "#c2ffe2",
                 text: "#00b377",
               },
-              snack: {
+              snacks: {
                 bg: "#f8e0ff",
                 text: "#9900ff",
               },

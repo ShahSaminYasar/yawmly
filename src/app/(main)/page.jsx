@@ -1,5 +1,6 @@
 "use client";
 import DayPlan from "@/components/main/DayPlan";
+import Overview from "@/components/main/Overview";
 import { useSettings } from "@/services/SettingsProvider";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -31,10 +32,16 @@ const page = () => {
   }, [session, status, router]);
 
   return (
-    <DayPlan
-      plan={userData?.plans?.[userData?.selectedPlan]}
-      planId={userData?.selectedPlan}
-    />
+    <>
+      <DayPlan
+        plan={userData?.plans?.[userData?.selectedPlan]}
+        planId={userData?.selectedPlan}
+      />
+
+      <span className="block w-[98%] mx-auto h-[1px] bg-slate-100 my-10"></span>
+
+      <Overview />
+    </>
   );
 };
 export default page;

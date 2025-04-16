@@ -133,3 +133,33 @@ body {
       50% 0, 0 0, 50% 50%;
   }
 }
+
+/* Tag Duration Table */
+.tag_duration_table th,
+.tag_duration_table td {
+  padding: 7px 10px;
+}
+
+.tag_duration_table td {
+  overflow-x: auto !important;
+}
+
+@media screen and (max-width: 500px) {
+  .tag_duration_table th {
+    font-size: 13px !important;
+  }
+
+  .tag_duration_table td {
+    font-size: 12px !important;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .tag_duration_table th {
+    font-size: 12px !important;
+  }
+
+  .tag_duration_table td {
+    font-size: 10px !important;
+  }
+}

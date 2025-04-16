@@ -33,7 +33,20 @@ const DayPlan = ({ plan, planId }) => {
 
   return (
     <section>
-      <div className="flex flex-col-reverse items-center gap-0 mb-3">
+      <div className="flex flex-col items-center gap-0 mb-3">
+        {/* <span className="text-xs text-slate-400 font-normal block text-center pb-3 -mt-3 mb-2 relative after:content-[''] after:block after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-[230px] after:h-[1px] after:bg-slate-100">
+          {moment().format("DD MMMM, YYYY")}
+        </span> */}
+
+        <span
+          className="text-xs font-medium block text-center w-fit rounded-sm px-[8px] py-[3px] bg-white -mt-8 mb-2"
+          style={{
+            color: colors?.primary,
+          }}
+        >
+          {moment().format("DD MMMM, YYYY")}
+        </span>
+
         <h3
           className={`${outfit?.className} block text-center text-xl font-bold capitalize`}
           style={{
@@ -42,10 +55,6 @@ const DayPlan = ({ plan, planId }) => {
         >
           {plan?.title}
         </h3>
-
-        <span className="text-xs text-slate-400 font-normal block text-center pb-2 -mt-3 mb-1 relative after:content-[''] after:block after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-[230px] after:h-[1px] after:bg-slate-100">
-          {moment().format("DD MMMM, YYYY")}
-        </span>
       </div>
 
       {/* Plan Table */}
