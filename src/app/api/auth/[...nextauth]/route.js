@@ -17,7 +17,7 @@ export const authOptions = {
         password: {},
       },
       async authorize(credentials) {
-        console.log("Authorizing with credentials...");
+        // console.log("Authorizing with credentials...");
         const { email, password } = credentials;
         if (!email || !password) return null;
 
@@ -43,7 +43,7 @@ export const authOptions = {
   ],
   callbacks: {
     async signIn({ user, account }) {
-      console.log("In sign in callback...");
+      // console.log("In sign in callback...");
       if (!user.email) return false;
       if (account?.provider === "google") {
         let db = await connectDB();
@@ -61,7 +61,7 @@ export const authOptions = {
     },
 
     async jwt({ token, user }) {
-      console.log("In JWT callback...");
+      // console.log("In JWT callback...");
       // console.log("User in token: ", user, token);
       if (user) {
         token.email = user.email;
@@ -74,7 +74,7 @@ export const authOptions = {
     },
 
     async session({ session, token }) {
-      console.log("In Session callback...");
+      // console.log("In Session callback...");
       const { uid, email } = token;
       if (!uid) {
         // console.log("Trying to get the uid in session callback...");

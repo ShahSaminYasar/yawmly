@@ -6,8 +6,8 @@
 
 ### 📌 Current Version
 
-V1.1.0
-Version release date: 16 April, 2025
+V1.1.2
+Version release date: 17 April, 2025
 
 ### 📅 Dates Noted
 

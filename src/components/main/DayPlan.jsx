@@ -32,7 +32,7 @@ const DayPlan = ({ plan, planId }) => {
   }, [userData]);
 
   return (
-    <section>
+    <section className="w-full max-w-3xl mx-auto">
       <div className="flex flex-col items-center gap-0 mb-3">
         {/* <span className="text-xs text-slate-400 font-normal block text-center pb-3 -mt-3 mb-2 relative after:content-[''] after:block after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-[230px] after:h-[1px] after:bg-slate-100">
           {moment().format("DD MMMM, YYYY")}
