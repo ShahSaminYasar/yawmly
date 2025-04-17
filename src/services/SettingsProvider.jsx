@@ -31,8 +31,21 @@ const SettingsProvider = ({ children }) => {
 
   // Functions
   const updateOnlineUserData = async (data) => {
-    let res = await axios.put("/api/put/users", data);
-    console.log("PUT of online data (log): ", res);
+    await axios.put("/api/put/users", data);
+    // let res = await axios.put("/api/put/users", data);
+    // console.log("PUT of online data (log): ", res);
+  };
+
+  const updateLastSeen = async (uid) => {
+    if (!uid) return;
+    try {
+      await axios.put("/api/put/update-last-seen", {
+        uid,
+      });
+      console.log("updated");
+    } catch (error) {
+      return console.error(error?.message);
+    }
   };
 
   // Effects
@@ -60,7 +73,7 @@ const SettingsProvider = ({ children }) => {
           onlineUserData?.email &&
           localUserData?.lastUpdatedAt > localUserData?.registeredAt
         ) {
-          console.log("Found conflicting data...");
+          // console.log("Found conflicting data...");
           setConflictingDataSets({
             local: localUserData,
             online: onlineUserData,
@@ -187,13 +200,13 @@ const SettingsProvider = ({ children }) => {
       };
 
       if (session?.user?.uid) {
-        console.log("Found UID and Session - Normal Sync running...");
+        // console.log("Found UID and Session - Normal Sync running...");
         getUserData();
       } else if (session?.user?.name && session?.user?.email) {
         if (localUserData?.uid) {
-          console.log(
-            "Found Session and Local User Doc - Google Login running..."
-          );
+          // console.log(
+          //   "Found Session and Local User Doc - Google Login running..."
+          // );
           let registerBody = {
             ...localUserData,
             name: session?.user?.name,
@@ -217,9 +230,9 @@ const SettingsProvider = ({ children }) => {
 
           googleEmailConnect();
         } else {
-          console.log(
-            "Found Session and no Local Doc - Google Signup running..."
-          );
+          // console.log(
+          //   "Found Session and no Local Doc - Google Signup running..."
+          // );
           pushNewGoogleUser();
         }
       }
@@ -227,12 +240,12 @@ const SettingsProvider = ({ children }) => {
 
     if (status === "unauthenticated" && localUserData) {
       setUserData(localUserData);
-      console.log("User's data was set from local data.");
+      // console.log("User's data was set from local data.");
       setGlobalLoading(false);
     }
 
     if (!session?.user && status === "unauthenticated" && !localUserData) {
-      console.log("No saved data found.");
+      // console.log("No saved data found.");
       setUserData({});
       return setGlobalLoading(false);
     }
@@ -245,7 +258,7 @@ const SettingsProvider = ({ children }) => {
       if (status === "authenticated") {
         localStorage.setItem("user", JSON.stringify(userData));
         updateOnlineUserData(userData);
-        console.log("Set userData to local and db");
+        // console.log("Set userData to local and db");
       }
       if (
         status !== "authenticated" &&
@@ -253,7 +266,8 @@ const SettingsProvider = ({ children }) => {
         userData?.settings
       ) {
         localStorage.setItem("user", JSON.stringify(userData));
-        console.log("Local data uptated. ", userData);
+        updateLastSeen(userData?.uid);
+        // console.log("Local data uptated. ", userData);
       }
 
       if (globalLoading) {

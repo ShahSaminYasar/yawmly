@@ -39,7 +39,7 @@ const DayPlan = ({ plan, planId }) => {
         </span> */}
 
         <span
-          className="text-xs font-medium block text-center w-fit rounded-sm px-[8px] py-[3px] bg-white -mt-8 mb-2"
+          className="text-xs font-medium block text-center w-fit rounded-sm px-[8px] py-[3px] bg-white -mt-8 mb-2 ml-auto"
           style={{
             color: colors?.primary,
           }}
