@@ -34,14 +34,15 @@ const page = () => {
 
         <div className="mb-6">
           <h3 className="text-xl font-semibold mb-2">📌 Current Version</h3>
-          <p>V1.1.2</p>
-          <p className="mt-2">Version release date: 17 April, 2025</p>
+          <p>V1.2.0</p>
+          <p className="mt-2">Version release date: 18 April, 2025</p>
         </div>
 
         <div className="mb-6">
           <h3 className="text-xl font-semibold mb-2">📅 Dates Noted</h3>
           <p>Development started: 8 April, 2025</p>
-          <p className="mt-2">Stable version ready: 13 April, 2025</p>
+          <p>Stable version ready: 13 April, 2025</p>
+          <p className="mt-2">V1.0.0 released on: 14 April, 2025</p>
         </div>
 
         <hr className="my-8" />
