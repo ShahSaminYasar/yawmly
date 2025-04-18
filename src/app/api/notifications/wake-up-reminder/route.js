@@ -21,7 +21,7 @@ export async function GET(req) {
     const usersCollection = db.collection("users");
     const notificationsCollection = db.collection("notifications");
 
-    const now = new Date();
+    const now = new Date(new Date().getTime() + 6 * 60 * 60 * 1000);
     const hours = now.getHours().toString().padStart(2, "0");
     const minutes = now.getMinutes().toString().padStart(2, "0");
     const currentTime = `${hours}:${minutes}`;
