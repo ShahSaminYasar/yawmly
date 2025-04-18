@@ -70,6 +70,7 @@ export async function GET(req) {
     return NextResponse.json({
       ok: true,
       count,
+      targetTime: currentTime,
     });
   } catch (error) {
     return NextResponse.json({
