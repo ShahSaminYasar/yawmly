@@ -17,13 +17,13 @@ body {
 
 /* Animation Classes */
 .fade {
-  animation: fadeAnimation 0.4s ease;
+  animation: fadeAnimation 0.14s ease;
 }
 .fade-down {
-  animation: fadeDownAnimation 0.4s ease;
+  animation: fadeDownAnimation 0.14s ease;
 }
 .fade-up {
-  animation: fadeUpAnimation 0.4s ease;
+  animation: fadeUpAnimation 0.14s ease;
 }
 
 @keyframes fadeAnimation {

@@ -1,13 +1,41 @@
 import { useSettings } from "@/services/SettingsProvider";
+import axios from "axios";
 import { signOut } from "next-auth/react";
+import { useState } from "react";
 import { GoSignOut } from "react-icons/go";
 
 const LogoutModal = () => {
   const { logoutModalVisible, setLogoutModalVisible, colors } = useSettings();
 
-  const executeLogout = () => {
+  // States
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  const executeLogout = async () => {
+    setLoggingOut(true);
     localStorage.removeItem("user");
+
+    let localPushNotification = JSON.parse(
+      localStorage.getItem("push-notification")
+    );
+
+    if (localPushNotification.uid) {
+      const removeDBSubscription = await axios.put(
+        "/api/put/remove-subscription",
+        {
+          uid: localPushNotification?.uid,
+          subscription: localPushNotification?.subscriptionKey,
+        }
+      );
+
+      localPushNotification.uid = "";
+      localStorage.setItem(
+        "push-notification",
+        JSON.stringify(localPushNotification)
+      );
+    }
+
     setLogoutModalVisible(false);
+    setLoggingOut(false);
     return signOut();
   };
 
@@ -59,13 +87,15 @@ const LogoutModal = () => {
             <button
               type="button"
               onClick={executeLogout}
-              className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer text-white border-2"
+              disabled={loggingOut}
+              className="w-full text-sm font-semibold flex flex-row gap-1 items-center justify-center text-center px-2 py-[8px] rounded-sm active:scale-[92%] mt-1 cursor-pointer text-white border-2 disabled:cursor-default disabled:opacity-50 disabled:grayscale-[60%]"
               style={{
                 backgroundColor: colors?.primary,
                 borderColor: colors?.primary,
               }}
             >
-              Logout <GoSignOut className="text-lg" />
+              {loggingOut ? "Logging out" : "Logout"}{" "}
+              <GoSignOut className="text-lg" />
             </button>
           </div>
         </div>

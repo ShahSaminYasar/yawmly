@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useSettings } from "@/services/SettingsProvider";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import Notifications from "../common/Notifications";
 
 gsap.registerPlugin(useGSAP);
 
@@ -65,13 +66,18 @@ const Header = () => {
       }}
     >
       <div className="w-full max-w-7xl mx-auto flex justify-between items-center text-white font-normal text-lg">
-        <button
-          onClick={toggleNavSidebarOpen}
-          id="nav_burger"
-          className="cursor-pointer -translate-x-[80px]"
-        >
-          <HiMenuAlt1 className="text-2xl" />
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={toggleNavSidebarOpen}
+            id="nav_burger"
+            className="cursor-pointer -translate-x-[80px]"
+          >
+            <HiMenuAlt1 className="text-2xl" />
+          </button>
+
+          <Notifications />
+        </div>
+
         <div id="d_day" className="translate-x-[80px]">
           <DDayViewer />
         </div>

@@ -40,7 +40,6 @@ const Overview = () => {
 
   useEffect(() => {
     const getTagData = getTagDurations();
-    console.log(getTagData);
     setTagsData(getTagData);
   }, [userData]);
 

@@ -1,5 +1,4 @@
 import { connectDB } from "@/lib/connectDB";
-import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
@@ -24,19 +23,19 @@ export async function GET(req) {
 
   try {
     const db = await connectDB();
-    const usersCollection = db.collection("users");
+    const keysCollection = db.collection("notifications");
 
     let res;
 
     if (uid) {
-      res = await usersCollection.find({ _id: new ObjectId(uid) })?.toArray();
+      res = await keysCollection.findOne({ uid });
     } else {
-      res = await usersCollection.find()?.toArray();
+      res = await keysCollection.find()?.toArray();
     }
 
     return NextResponse.json({
       ok: true,
-      message: `Users data fetched successfully. ${
+      message: `Keys data fetched successfully. ${
         uid ? `Queried for UID: ${uid}` : ""
       }`,
       data: res,
