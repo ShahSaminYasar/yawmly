@@ -1,4 +1,5 @@
 import { connectDB } from "@/lib/connectDB";
+import { now } from "moment";
 import { NextResponse } from "next/server";
 import webpush from "web-push";
 
@@ -21,13 +22,29 @@ export async function GET(req) {
     const usersCollection = db.collection("users");
     const notificationsCollection = db.collection("notifications");
 
-    const now = new Date(new Date().getTime() + 6 * 60 * 60 * 1000);
-    const hours = now.getHours().toString().padStart(2, "0");
-    const minutes = now.getMinutes().toString().padStart(2, "0");
-    const currentTime = `${hours}:${minutes}`;
+    let targetTimes = [];
+
+    // Get present time at UTC+6
+    const nowDateTime = new Date();
+    const isBDTime = nowDateTime.getTimezoneOffset() === -360; // BD Time Offset = -360 (UTC+6)
+    const now = isBDTime
+      ? nowDateTime
+      : new Date(nowDateTime.getTime() + 6 * 60 * 60 * 1000);
+
+    // Get all users who have their wake-up-time within the next 15 mins
+    for (let i = 0; i < 15; i++) {
+      let n = new Date(now.getTime() + i * 60 * 1000);
+      let hours = n.getHours().toString().padStart(2, "0");
+      let minutes = n.getMinutes().toString().padStart(2, "0");
+      targetTimes.push(`${hours}:${minutes}`);
+    }
 
     const targetUsers = await usersCollection
-      .find({ "settings.wakeUpTime": currentTime })
+      .find({
+        "settings.wakeUpTime": {
+          $in: targetTimes,
+        },
+      })
       .toArray();
 
     const userUids = targetUsers.map((u) => u.uid);
@@ -70,7 +87,7 @@ export async function GET(req) {
     return NextResponse.json({
       ok: true,
       count,
-      targetTime: currentTime,
+      targetTimes: targetTimes,
     });
   } catch (error) {
     return NextResponse.json({
