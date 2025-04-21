@@ -58,18 +58,23 @@ const page = () => {
 
   return (
     <>
-      <section className="flex flex-row gap-6 justify-center flex-wrap">
-        {userData?.dDays?.map((dDay, index) => (
-          <DDayCard
-            key={`${dDay?.name}_${index}`}
-            dDay={dDay}
-            index={index}
-            setEditingDDayData={setEditingDDayData}
-            setDDayEditModalVisible={setDDayEditModalVisible}
-            setDDayDeleteModalVisible={setDDayDeleteModalVisible}
-            setDeletingDDayIndex={setDeletingDDayIndex}
-          />
-        ))}
+      <section className="flex flex-col items-center gap-5 w-full">
+        <p className="text-sm font-normal block text-center text-slate-600 -mt-3 mb-3">
+          Add important dates and see how many days are left.
+        </p>
+        <div className="flex flex-row gap-6 justify-center flex-wrap w-full">
+          {userData?.dDays?.map((dDay, index) => (
+            <DDayCard
+              key={`${dDay?.name}_${index}`}
+              dDay={dDay}
+              index={index}
+              setEditingDDayData={setEditingDDayData}
+              setDDayEditModalVisible={setDDayEditModalVisible}
+              setDDayDeleteModalVisible={setDDayDeleteModalVisible}
+              setDeletingDDayIndex={setDeletingDDayIndex}
+            />
+          ))}
+        </div>
       </section>
 
       <button

@@ -107,7 +107,7 @@ const page = () => {
           <span className="loading loading-spinner loading-sm text-slate-900"></span>
         </div>
       ) : (
-        <div className="w-full max-w-2xl mx-auto h-full max-h-[60vh] overflow-auto border border-slate-200">
+        <div className="w-full max-w-2xl mx-auto h-[60vh] overflow-auto border border-slate-200">
           <table
             className="table-fixed font-medium text-[10px] sm:text-[12px] text-slate-600"
             cellSpacing={0}
@@ -132,12 +132,12 @@ const page = () => {
                   <td className="p-2 min-w-[70px] sm:min-w-[100px] text-slate-600 text-center">
                     {moment
                       .tz(user?.registeredAt, "Asia/Dhaka")
-                      .format("HH:MM, DD/MM/YYYY")}
+                      .format("HH:mm, DD/MM/YYYY")}
                   </td>
                   <td className="p-2 min-w-[70px] sm:min-w-[100px] text-slate-600 text-center">
                     {moment
                       .tz(user?.lastUpdatedAt, "Asia/Dhaka")
-                      .format("HH:MM, DD/MM/YYYY")}
+                      .format("HH:mm, DD/MM/YYYY")}
                   </td>
                   <td className="p-2 min-w-[50px] text-center">
                     {keys?.filter((k) => k?.uid === user?.uid)?.length > 0
