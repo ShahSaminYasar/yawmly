@@ -7,7 +7,8 @@ import toast from "react-hot-toast";
 import { LuBellOff, LuBellRing } from "react-icons/lu";
 
 const Notifications = () => {
-  const { userData } = useSettings();
+  const { userData, setNotificationEnablingTutorialModalVisible } =
+    useSettings();
 
   // States
   const [notificationPermission, setNotificationPermission] =
@@ -87,15 +88,16 @@ const Notifications = () => {
   // Functions
 
   const showNotification = () => {
-    console.log("notifications requested to be shown");
+    // console.log("notifications requested to be shown");
     if ("Notification" in window) {
       Notification.requestPermission().then((permission) => {
         setNotificationPermission(permission);
         if (permission === "granted") {
           subscribeUser();
         } else {
+          setNotificationEnablingTutorialModalVisible(true);
           return toast(
-            "Please go to app settings and enable notifications to get daily reminders.",
+            "Notification permissions were not given. Please go to the website and give notification permission by clicking the 🔒 icon on the address bar.",
             {
               icon: "🔔",
             }

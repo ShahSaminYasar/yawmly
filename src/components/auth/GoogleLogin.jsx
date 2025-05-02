@@ -2,12 +2,14 @@ import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import { FaGoogle } from "react-icons/fa6";
 
-const GoogleLogin = ({ className }) => {
+const GoogleLogin = ({ className, style }) => {
   // Functions
   const loginWithGoogle = async () => {
+    let localFlags = JSON.parse(localStorage.getItem("flags")) || {};
     localStorage.setItem(
       "flags",
       JSON.stringify({
+        ...localFlags,
         welcomed: true,
       })
     );
@@ -26,9 +28,10 @@ const GoogleLogin = ({ className }) => {
     <button
       onClick={loginWithGoogle}
       type="button"
-      className={`w-full max-w-[320px] sm:max-w-fit justify-center p-3 rounded-lg bg-[#f7833c] shadow-sm text-[#ffffff] text-[15px] font-medium flex items-center gap-2 cursor-pointer border-2 border-[#f7833c] hover:bg-[#ffdd93] hover:border-[#f7833c] hover:text-[#f7833c] ${
+      className={`w-full max-w-[400px] sm:max-w-fit justify-center p-3 rounded-lg bg-[#f7833c] shadow-sm text-[#ffffff] text-[15px] font-medium flex items-center gap-2 cursor-pointer border-2 border-[#f7833c] hover:bg-[#ffdd93] hover:border-[#f7833c] hover:text-[#f7833c] ${
         className && className
       }`}
+      style={style || {}}
     >
       <FaGoogle className="text-lg" /> Sign in with Google
     </button>

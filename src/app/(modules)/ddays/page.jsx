@@ -29,33 +29,6 @@ const page = () => {
     document.title = `D-Days — YAWMLY`;
   }, []);
 
-  //   Functions
-  const editDDay = (setAsActive = false) => {
-    let { index, name, date, bgColor, textColor } = editingDDayData;
-
-    let updatedDDay = {
-      name,
-      date,
-      bgColor,
-      textColor,
-    };
-
-    const newDDays = userData?.dDays?.map((d, i) =>
-      i === index ? updatedDDay : d
-    );
-
-    const updatedUserData = {
-      ...userData,
-      dDays: newDDays,
-      selectedDDay: setAsActive ? index : userData?.selectedDDay,
-      lastUpdatedAt: new Date().toISOString(),
-    };
-
-    setUserData({ ...updatedUserData });
-    setDDayEditModalVisible(false);
-    return toast.success("D-Day updated");
-  };
-
   return (
     <>
       <section className="flex flex-col items-center gap-5 w-full">
@@ -97,7 +70,7 @@ const page = () => {
         setDDayEditModalVisible={setDDayEditModalVisible}
         editingDDayData={editingDDayData}
         setEditingDDayData={setEditingDDayData}
-        editDDay={editDDay}
+        // editDDay={editDDay}
       />
 
       <DDayDeleteModal

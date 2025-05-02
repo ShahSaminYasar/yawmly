@@ -137,15 +137,19 @@ const PlanEditModal = ({
 
             <div className="flex flex-row items-center gap-2 justify-start">
               <input
+                id="set_as_active"
                 name="set_as_active"
                 type="checkbox"
                 defaultChecked={
                   editingPlanData?.index === userData?.selectedPlan
                 }
               />
-              <span className="text-sm font-normal block text-left text-slate-600 mb-0">
+              <label
+                htmlFor="set_as_active"
+                className="text-sm font-normal block text-left text-slate-600 mb-0"
+              >
                 Set as active plan
-              </span>
+              </label>
             </div>
 
             <button

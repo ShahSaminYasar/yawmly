@@ -1,7 +1,9 @@
 import { useSettings } from "@/services/SettingsProvider";
+import { minsDuration } from "@/utils/minsDuration";
 import { minutesToTime } from "@/utils/minutesToTime";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { FiEdit2 } from "react-icons/fi";
+// import { FiEdit2 } from "react-icons/fi";
 
 const SessionBlock = ({
   block,
@@ -10,8 +12,41 @@ const SessionBlock = ({
   setBlockEditModalVisible,
   setEditingBlockIndex,
   setEditingBlockData,
+  currentTimeInMinutes,
+  setTargetBlockYPos,
 }) => {
   const { colors, userData, setUserData } = useSettings();
+
+  // Refs
+  const runningBlockRef = useRef(null);
+
+  // States
+  const [currentlyRunning, setCurrentlyRunning] = useState(false);
+
+  useEffect(() => {
+    let isCurrentlyRunning =
+      currentTimeInMinutes >= block?.start &&
+      currentTimeInMinutes <= block?.end;
+
+    setCurrentlyRunning(isCurrentlyRunning);
+
+    const updateY = () => {
+      if (runningBlockRef?.current) {
+        const rect = runningBlockRef?.current.getBoundingClientRect();
+        console.log("Set Y Pos:", rect.top - 30 + window.scrollY);
+        setTargetBlockYPos(rect.top - 30 + window.scrollY);
+      }
+    };
+
+    if (isCurrentlyRunning) {
+      updateY();
+      window.addEventListener("resize", updateY);
+
+      return () => {
+        window.removeEventListener("resize", updateY);
+      };
+    }
+  }, [block, currentTimeInMinutes]);
 
   //   Functions
   const markAsDone = (e) => {
@@ -57,27 +92,54 @@ const SessionBlock = ({
 
   return (
     <tr
-      className="text-[12px] sm:text-[14px] group"
+      ref={runningBlockRef}
+      className="text-[12px] sm:text-[14px] group cursor-pointer"
       style={{
         backgroundColor: tags[block?.tag]?.bg,
         color: tags[block?.tag]?.text,
+      }}
+      onClick={() => {
+        setEditingBlockIndex(index);
+        setEditingBlockData({
+          title: block?.title,
+          start: block?.start,
+          end: block?.end,
+          tag: block?.tag,
+          remarks: {
+            checked: block?.remarks?.checked,
+            note: block?.remarks?.note,
+          },
+        });
+        setBlockEditModalVisible(true);
       }}
     >
       <td
         style={{
           borderWidth: "1px",
-          borderColor: colors?.accent,
+          borderColor: colors?.primary,
           padding: "12px 12px",
         }}
-        className="font-semibold"
+        className="font-semibold relative"
       >
-        {minutesToTime(block?.start)} - {minutesToTime(block?.end)} (
-        {block?.end - block?.start}min)
+        {currentlyRunning && (
+          // <span className="absolute block w-[10px] h-[10px] bg-gradient-to-b bg-[#00d439] border-2 border-[#8bff65] rounded-full top-1/2 -translate-y-1/2 left-0"></span>
+          <div className="w-fit p-[1px] bg-[#d8ffcb] rounded-full absolute top-1 left-1">
+            <div className="livenow">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        )}
+        {minutesToTime(block?.start)} - {minutesToTime(block?.end)}{" "}
+        <p className="text-nowrap">
+          ({minsDuration(block?.start, block?.end)})
+        </p>
       </td>
       <td
         style={{
           borderWidth: "1px",
-          borderColor: colors?.accent,
+          borderColor: colors?.primary,
           padding: "12px 12px",
         }}
         className="overflow-hidden text-ellipsis"
@@ -87,12 +149,13 @@ const SessionBlock = ({
       <td
         style={{
           borderWidth: "1px",
-          borderColor: colors?.accent,
+          borderColor: colors?.primary,
           padding: "12px 12px",
           position: "relative",
         }}
       >
-        <button
+        {/* Edit Button */}
+        {/* <button
           onClick={() => {
             setEditingBlockIndex(index);
             setEditingBlockData({
@@ -118,10 +181,11 @@ const SessionBlock = ({
               color: tags[block?.tag]?.bg,
             }}
           />
-        </button>
+        </button> */}
         <input
           type="checkbox"
           checked={block?.remarks?.checked}
+          onClick={(e) => e.stopPropagation()}
           onChange={markAsDone}
           style={{
             borderWidth: "2px",

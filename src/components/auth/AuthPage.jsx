@@ -13,7 +13,11 @@ const AuthPage = () => {
         <span className="w-full rounded-sm h-[1px] bg-[#bababa] sm:w-[1px] sm:h-full"></span>
       </div>
 
-      <GoogleLogin />
+      <GoogleLogin
+        style={{
+          maxWidth: "320px",
+        }}
+      />
     </div>
   );
 };

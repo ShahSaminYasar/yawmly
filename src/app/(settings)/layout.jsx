@@ -112,16 +112,21 @@ const layout = ({ children }) => {
             backgroundColor: colors?.shade,
           }}
         >
-          <Link
-            href={"/admin"}
-            className="flex flex-col items-center gap-1 text-[12px] font-normal"
-            style={{
-              color: pathName?.includes("/admin") ? colors?.accent : "#1b1b1b",
-            }}
-          >
-            <FcUnlock className="text-lg" />
-            <span></span>
-          </Link>
+          {session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_AID && (
+            <Link
+              href={"/admin"}
+              className="flex flex-col items-center gap-1 text-[12px] font-normal"
+              style={{
+                color: pathName?.includes("/admin")
+                  ? colors?.accent
+                  : "#1b1b1b",
+              }}
+            >
+              <FcUnlock className="text-lg" />
+              <span></span>
+            </Link>
+          )}
+
           <Link
             href={"/settings"}
             className="flex flex-col items-center gap-1 text-[12px] font-normal"

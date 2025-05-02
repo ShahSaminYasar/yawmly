@@ -112,15 +112,21 @@ const page = () => {
         if (res?.data?.ok && res?.data?.uid) {
           userData.uid = res?.data?.uid;
           localStorage.setItem("user", JSON.stringify(userData));
+          let localFlags = JSON.parse(localStorage?.getItem("flags")) || {};
           localStorage.setItem(
             "flags",
             JSON.stringify({
+              ...localFlags,
               welcomed: true,
             })
           );
           setUserData(userData);
           setUpdatingUserData(false);
           return router.push("/");
+        } else {
+          setUpdatingUserData(false);
+          console.log("Failed to insert new user data - network error");
+          return toast.error("Network Error");
         }
       } catch (error) {
         setUpdatingUserData(false);

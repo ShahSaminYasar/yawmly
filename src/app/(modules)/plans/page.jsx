@@ -28,10 +28,10 @@ const page = () => {
     setPlans(userData?.plans || []);
   }, [userData]);
 
-  // Test
-  useEffect(() => {
-    console.log("EPD:", editingPlanData);
-  }, [editingPlanData]);
+  // // Test
+  // useEffect(() => {
+  //   console.log("EPD:", editingPlanData);
+  // }, [editingPlanData]);
 
   return (
     <>

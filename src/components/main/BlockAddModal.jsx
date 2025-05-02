@@ -12,7 +12,7 @@ import TagAddModal from "./TagAddModal";
 import { minutesToTime } from "@/utils/minutesToTime";
 import { GoClock } from "react-icons/go";
 
-const BlockAddModal = () => {
+const BlockAddModal = ({ defStartTime, defEndTime }) => {
   const {
     blockAddModalVisible,
     setBlockAddModalVisible,
@@ -27,6 +27,7 @@ const BlockAddModal = () => {
   const [tags, setTags] = useState({});
   const [newSessionTag, setNewSessionTag] = useState("");
   const [defaultStartTime, setDefaultStartTime] = useState("");
+  const [defaultEndTime, setDefaultEndTime] = useState("");
 
   // Effetcs
   useEffect(() => {
@@ -39,12 +40,21 @@ const BlockAddModal = () => {
 
     if (!planRows || planRows?.length === 0) {
       // console.log("Setting st to default wut");
-      return setDefaultStartTime(userData?.settings?.wakeUpTime || "");
+      setDefaultStartTime(userData?.settings?.wakeUpTime || "");
+      return setDefaultEndTime("");
     } else {
       // console.log("setting st to prev et");
-      return setDefaultStartTime(minutesToTime(planRows?.[0]?.end, true) || "");
+      setDefaultStartTime(minutesToTime(planRows?.[0]?.end, true) || "");
+      return setDefaultEndTime("");
     }
   }, [userData]);
+
+  // useEffect(() => {
+  //   if (defStartTime && defEndTime) {
+  //     setDefaultStartTime(minutesToTime(defStartTime, true));
+  //     setDefaultEndTime(minutesToTime(defEndTime, true));
+  //   }
+  // }, [defStartTime, defEndTime]);
 
   useEffect(() => {
     if (Object.keys(tags || {}).length > 0 && newSessionTag?.length === 0) {
@@ -168,7 +178,11 @@ const BlockAddModal = () => {
                   required
                   className="input w-full"
                   style={inputStyle}
-                  defaultValue={defaultStartTime}
+                  defaultValue={
+                    defStartTime
+                      ? minutesToTime(defStartTime, true)
+                      : defaultStartTime
+                  }
                 />
                 <GoClock className="text-xs text-slate-300 absolute top-1/2 -translate-y-1/2 right-[15px] pointer-events-none" />
               </div>
@@ -186,6 +200,11 @@ const BlockAddModal = () => {
                   required
                   className="input w-full"
                   style={inputStyle}
+                  defaultValue={
+                    defEndTime
+                      ? minutesToTime(defEndTime, true)
+                      : defaultEndTime
+                  }
                 />
                 <GoClock className="text-xs text-slate-300 absolute top-1/2 -translate-y-1/2 right-[15px] pointer-events-none" />
               </div>

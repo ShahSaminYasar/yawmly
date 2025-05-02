@@ -2,15 +2,46 @@ import { useSettings } from "@/services/SettingsProvider";
 import toast from "react-hot-toast";
 import { FaCheck } from "react-icons/fa6";
 import DayPlan from "./DayPlan";
+import { useRef } from "react";
 
 const DDayEditModal = ({
   dDayEditModalVisible,
   setDDayEditModalVisible,
   editingDDayData,
   setEditingDDayData,
-  editDDay,
 }) => {
-  const { colors, userData } = useSettings();
+  const { colors, userData, setUserData } = useSettings();
+
+  // Refs
+  const bgColorRef = useRef(null);
+  const textColorRef = useRef(null);
+
+  //   Functions
+  const editDDay = (setAsActive = false) => {
+    let { index, name, date } = editingDDayData;
+
+    let updatedDDay = {
+      name,
+      date,
+      bgColor: bgColorRef?.current?.value,
+      textColor: textColorRef?.current?.value,
+    };
+
+    const newDDays = userData?.dDays?.map((d, i) =>
+      i === index ? updatedDDay : d
+    );
+
+    const updatedUserData = {
+      ...userData,
+      dDays: newDDays,
+      selectedDDay: setAsActive ? index : userData?.selectedDDay,
+      lastUpdatedAt: new Date().toISOString(),
+    };
+
+    setUserData({ ...updatedUserData });
+    setDDayEditModalVisible(false);
+    return toast.success("D-Day updated");
+  };
 
   return (
     dDayEditModalVisible && (
@@ -97,13 +128,8 @@ const DDayEditModal = ({
                 <input
                   type="color"
                   name="bg_color"
-                  value={editingDDayData?.bgColor}
-                  onChange={(e) =>
-                    setEditingDDayData({
-                      ...editingDDayData,
-                      bgColor: e.target?.value,
-                    })
-                  }
+                  ref={bgColorRef}
+                  defaultValue={editingDDayData?.bgColor}
                   style={{
                     borderColor: colors?.shade,
                   }}
@@ -115,13 +141,8 @@ const DDayEditModal = ({
                 <input
                   type="color"
                   name="text_color"
-                  value={editingDDayData?.textColor}
-                  onChange={(e) =>
-                    setEditingDDayData({
-                      ...editingDDayData,
-                      textColor: e.target?.value,
-                    })
-                  }
+                  ref={textColorRef}
+                  defaultValue={editingDDayData?.textColor}
                   style={{
                     borderColor: colors?.shade,
                   }}

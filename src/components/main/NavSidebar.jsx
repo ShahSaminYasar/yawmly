@@ -17,6 +17,7 @@ import { IoTodayOutline } from "react-icons/io5";
 import DDayViewer from "./DDayViewer";
 import moment from "moment";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 gsap.registerPlugin(useGSAP);
 
@@ -25,7 +26,30 @@ const NavSidebar = () => {
     useSettings();
   const pathname = usePathname();
 
+  // States
+  const [plansArray, setPlansArray] = useState([]);
+  const [dDaysArray, setDDaysArray] = useState([]);
+
   // Effects
+  useEffect(() => {
+    let mainDDays = userData?.dDays || [];
+    let original = mainDDays?.map((d, i) => ({
+      ...d,
+      og_i: i,
+    }));
+    let sorted = [...original]?.sort(
+      (a, b) => new Date(a?.date) - new Date(b?.date)
+    );
+    setDDaysArray(sorted);
+
+    let modifiedPlansArray = userData?.plans || [];
+    modifiedPlansArray = modifiedPlansArray?.map((p, i) => ({
+      ...p,
+      og_i: i,
+    }));
+    setPlansArray(modifiedPlansArray);
+  }, [userData]);
+
   useGSAP(() => {
     const ctx = gsap.context(() => {
       navSidebarTL.current.clear().pause(0);
@@ -140,30 +164,37 @@ const NavSidebar = () => {
           </span> */}
         </button>
         <div className="w-full mt-0 min-h-[55px] max-h-[90px] overflow-y-auto">
-          {userData?.plans?.map((plan, index) => (
-            <button
-              key={`${plan?.title}_${index}`}
-              className={`cursor-pointer w-full p-3 rounded-sm flex flex-row justify-between items-center text-sm font-medium`}
-              style={{
-                backgroundColor:
-                  index === userData?.selectedPlan
-                    ? colors?.secondary
-                    : "transparent",
-                color:
-                  index === userData?.selectedPlan ? colors?.accent : "#595959",
-              }}
-              onClick={() =>
-                setUserData((prev) => ({
-                  ...prev,
-                  selectedPlan: index,
-                  lastUpdatedAt: new Date().toISOString(),
-                }))
-              }
-            >
-              <span>{plan?.title}</span>
-              {index === userData?.selectedPlan && <FaCheck />}
-            </button>
-          ))}
+          <button
+            className={`cursor-pointer w-full p-3 rounded-sm flex flex-row justify-between items-center text-sm font-medium`}
+            style={{
+              backgroundColor: colors?.secondary,
+              color: colors?.accent,
+            }}
+          >
+            <span>{plansArray?.[userData?.selectedPlan]?.title}</span>
+            <FaCheck />
+          </button>
+          {plansArray
+            ?.filter((_, i) => i !== userData?.selectedPlan)
+            ?.map((plan, index) => (
+              <button
+                key={`${plan?.title}_${index}`}
+                className={`cursor-pointer w-full p-3 rounded-sm flex flex-row justify-between items-center text-sm font-medium`}
+                style={{
+                  backgroundColor: "transparent",
+                  color: "#595959",
+                }}
+                onClick={() =>
+                  setUserData((prev) => ({
+                    ...prev,
+                    selectedPlan: plan?.og_i,
+                    lastUpdatedAt: new Date().toISOString(),
+                  }))
+                }
+              >
+                <span>{plan?.title}</span>
+              </button>
+            ))}
         </div>
 
         {/* D-Days */}
@@ -177,7 +208,7 @@ const NavSidebar = () => {
           </span> */}
         </button>
         <div className="w-full mt-0 flex flex-col gap-1 min-h-[55px] max-h-[108px] overflow-y-auto">
-          {userData?.dDays?.map((dDay, index) => (
+          {dDaysArray?.map((dDay, index) => (
             <button
               key={`${dDay?.name}_${index}`}
               className={`cursor-pointer w-full px-3 py-2 rounded-lg flex flex-row justify-between items-center text-sm font-medium relative`}
@@ -188,7 +219,7 @@ const NavSidebar = () => {
               onClick={() =>
                 setUserData((prev) => ({
                   ...prev,
-                  selectedDDay: index,
+                  selectedDDay: dDay?.og_i,
                   lastUpdatedAt: new Date().toISOString(),
                 }))
               }
@@ -202,7 +233,7 @@ const NavSidebar = () => {
                 </span>
               </div>
 
-              {index === userData?.selectedDDay && (
+              {dDay?.og_i === userData?.selectedDDay && (
                 <span
                   style={{
                     color: dDay?.bgColor,

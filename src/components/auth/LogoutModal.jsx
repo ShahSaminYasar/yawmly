@@ -18,14 +18,11 @@ const LogoutModal = () => {
       localStorage.getItem("push-notification")
     );
 
-    if (localPushNotification.uid) {
-      const removeDBSubscription = await axios.put(
-        "/api/put/remove-subscription",
-        {
-          uid: localPushNotification?.uid,
-          subscription: localPushNotification?.subscriptionKey,
-        }
-      );
+    if (localPushNotification?.uid) {
+      await axios.put("/api/put/remove-subscription", {
+        uid: localPushNotification?.uid,
+        subscription: localPushNotification?.subscriptionKey,
+      });
 
       localPushNotification.uid = "";
       localStorage.setItem(

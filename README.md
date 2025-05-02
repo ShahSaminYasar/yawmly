@@ -6,8 +6,9 @@
 
 ### 📌 Current Version
 
-V1.2.2
-Version release date: 21 April, 2025
+V1.3.0
+Version release date: 03 May, 2025
+New in the update: Blocks Layout, Login Prompt Modal, Active Session Indicator, Plan Reset, Plan Navigation Bar, Notification Enabling Tutorial Modal.
 
 ### 📅 Dates Noted
 

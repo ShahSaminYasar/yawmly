@@ -6,6 +6,8 @@ import { Toaster } from "react-hot-toast";
 import LoadingScreen from "@/components/common/LoadingScreen";
 import { Analytics } from "@vercel/analytics/next";
 import ChooseDataSetModal from "@/components/auth/ChooseDataSetModal";
+import NotificationEnableTutorialModal from "@/components/main/NotificationEnableTutorialModal";
+import LoginPromptModal from "@/components/main/LoginPromptModal";
 
 export const metadata = {
   manifest: "/manifest.json",
@@ -79,6 +81,8 @@ export default function RootLayout({ children }) {
             {children}
             <Toaster />
             <ChooseDataSetModal />
+            <NotificationEnableTutorialModal />
+            <LoginPromptModal />
             <LoadingScreen />
             <Analytics />
           </body>

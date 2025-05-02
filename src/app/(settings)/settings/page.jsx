@@ -1,42 +1,38 @@
 "use client";
+import PlanLayout from "@/components/settings/PlanLayout";
 import Tags from "@/components/settings/Tags";
 import TimeFormat from "@/components/settings/TimeFormat";
 import WakeUpTime from "@/components/settings/WakeUpTime";
 import { useSettings } from "@/services/SettingsProvider";
-import { redirect } from "next/navigation";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { useEffect } from "react";
+// import toast from "react-hot-toast";
 
 const page = () => {
-  const { colors } = useSettings();
-
-  // States
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const {
+    colors,
+    notificationsEnabled,
+    enableNotifications,
+    // setNotificationsEnabled,
+  } = useSettings();
 
   // Effects
   useEffect(() => {
     document.title = `Settings — YAWMLY`;
-
-    if ("Notification" in window) {
-      if (Notification.permission === "granted") {
-        setNotificationsEnabled(true);
-      }
-    }
   }, []);
 
   // Functions
-  const enableNotifications = () => {
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        setNotificationsEnabled(true);
-        return redirect("/");
-      } else {
-        return toast(
-          "Notification permissions were not given. Please go to the website and give notification permission by clicking the 🔒 icon on the address bar."
-        );
-      }
-    });
-  };
+  // const enableNotifications = () => {
+  //   Notification.requestPermission().then((permission) => {
+  //     if (permission === "granted") {
+  //       setNotificationsEnabled(true);
+  //       return redirect("/");
+  //     } else {
+  //       return toast(
+  //         "Notification permissions were not given. Please go to the website and give notification permission by clicking the 🔒 icon on the address bar."
+  //       );
+  //     }
+  //   });
+  // };
 
   return (
     <>
@@ -51,7 +47,11 @@ const page = () => {
         </h3>
 
         {!notificationsEnabled && (
-          <div className="my-5">
+          <div className="my-0 mb-2 flex flex-col items-start gap-1">
+            <p>
+              Enable notifications to receive daily routine reminders and stay
+              updated.
+            </p>
             <button
               onClick={enableNotifications}
               className="px-3 py-2 bg-blue-600 text-white text-xs font-medium block w-fit mr-auto shadow rounded-sm active:scale-95 cursor-pointer"
@@ -60,6 +60,9 @@ const page = () => {
             </button>
           </div>
         )}
+
+        {/* Plan Layout */}
+        <PlanLayout />
 
         {/* Preferred Time Format */}
         <TimeFormat />

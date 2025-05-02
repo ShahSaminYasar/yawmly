@@ -62,16 +62,16 @@ const BlockEditModal = ({
       ?.filter((_, id) => id !== editingBlockIndex);
 
     const isOverlapping = sisterRows?.some((session) => {
-      console.log(
-        "ns: ",
-        startTime,
-        "e: ",
-        session?.end,
-        "ne :",
-        endTime,
-        "s :",
-        session?.start
-      );
+      // console.log(
+      //   "ns: ",
+      //   startTime,
+      //   "e: ",
+      //   session?.end,
+      //   "ne :",
+      //   endTime,
+      //   "s :",
+      //   session?.start
+      // );
       return startTime < session?.end && endTime > session?.start;
     });
 
@@ -275,13 +275,17 @@ const BlockEditModal = ({
 
             <div className="flex flex-row items-center gap-1 justify-start">
               <input
+                id="checked"
                 name="checked"
                 type="checkbox"
                 defaultChecked={editingBlockData?.remarks?.checked}
               />
-              <span className="text-sm font-normal block text-left text-slate-600 mb-1">
+              <label
+                htmlFor="checked"
+                className="text-sm font-normal block text-left text-slate-600 mb-1"
+              >
                 Mark as done
-              </span>
+              </label>
             </div>
 
             <div>

@@ -11,7 +11,11 @@ const layout = ({ children }) => {
       <div
         className="w-[50%] h-full min-h-screen"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,99,2,0.8),rgba(255,99,2,0.8)), url(/assets/bg-1.png)`,
+          backgroundImage: `linear-gradient(rgba(255,99,2,0.75),rgba(255,99,2,0.75)), url(/assets/auth-bg.png)`,
+          backgroundPosition: "0% 0%",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundBlendMode: "multiply",
         }}
       ></div>
       <div
