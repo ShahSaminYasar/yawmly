@@ -34,8 +34,8 @@ const page = () => {
 
         <div className="mb-6">
           <h3 className="text-xl font-semibold mb-2">📌 Current Version</h3>
-          <p>V1.3.0</p>
-          <p>Version release date: 03 May, 2025</p>
+          <p>V1.3.1</p>
+          <p>Version release date: 09 May, 2025</p>
           <p className="mt-2">
             New in the update: Blocks Layout, Login Prompt Modal, Active Session
             Indicator, Plan Reset, Plan Navigation Bar, Notification Enabling
